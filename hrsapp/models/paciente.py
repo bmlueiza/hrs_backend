@@ -12,6 +12,7 @@ class Paciente(models.Model):
     sexo = models.CharField(max_length=2)
     telefono = models.CharField(max_length=11)
     direccion = models.CharField(max_length=50)
+
     # Foreign Keys
     gestor = models.ForeignKey(Gestor, on_delete=models.CASCADE)
     diagnostico = models.ManyToManyField(Diagnostico)
