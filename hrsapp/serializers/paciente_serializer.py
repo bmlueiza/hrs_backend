@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models.paciente import Paciente
+from hrsapp.models.paciente import Paciente
 
 
 class PacienteSerializer(serializers.ModelSerializer):

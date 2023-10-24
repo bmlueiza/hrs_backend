@@ -1,6 +1,6 @@
 from rest_framework import generics
-from models.paciente import Paciente
-from serializers.paciente_serializer import PacienteSerializer
+from hrsapp.models.paciente import Paciente
+from hrsapp.serializers.paciente_serializer import PacienteSerializer
 
 # CRUD Paciente
 

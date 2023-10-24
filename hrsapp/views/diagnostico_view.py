@@ -1,6 +1,6 @@
 from rest_framework import generics
-from models.diagnostico import Diagnostico
-from serializers.diagnostico_serializer import DiagnosticoSerializer
+from hrsapp.models.diagnostico import Diagnostico
+from hrsapp.serializers.diagnostico_serializer import DiagnosticoSerializer
 
 # CRUD Diagnostico
 

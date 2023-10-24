@@ -1,6 +1,6 @@
 from rest_framework import generics
-from models.gestor import Gestor
-from serializers.gestor_serializer import GestorSerializer
+from hrsapp.models.gestor import Gestor
+from hrsapp.serializers.gestor_serializer import GestorSerializer
 
 # CRUD Gestor
 

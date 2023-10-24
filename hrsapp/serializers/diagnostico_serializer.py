@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models.diagnostico import Diagnostico
+from hrsapp.models.diagnostico import Diagnostico
 
 
 class DiagnosticoSerializer(serializers.ModelSerializer):
