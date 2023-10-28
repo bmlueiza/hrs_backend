@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Gestor(models.Model):
-    rut = models.CharField(max_length=11)
+    rut = models.CharField(max_length=12)
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
     telefono = models.CharField(max_length=12)

@@ -5,13 +5,13 @@ from .medicamento import Medicamento
 
 
 class Paciente(models.Model):
-    rut = models.CharField(max_length=11)
+    rut = models.CharField(max_length=12)
     nombres = models.CharField(max_length=50)
     apellido1 = models.CharField(max_length=50)
     apellido2 = models.CharField(max_length=50)
     fecha_nacimiento = models.DateField()
     sexo = models.CharField(max_length=2)
-    telefono = models.CharField(max_length=11)
+    telefono = models.CharField(max_length=12)
     direccion = models.CharField(max_length=50)
     alergias = models.CharField(max_length=50, null=True)
 
