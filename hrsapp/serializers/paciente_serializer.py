@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from hrsapp.models.paciente import Paciente
-from hrsapp.serializers.diagnostico_serializer import DiagnosticoCodigoSerializer
 
 
 class PacienteSerializer(serializers.ModelSerializer):
