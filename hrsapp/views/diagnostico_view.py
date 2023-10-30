@@ -6,13 +6,13 @@ from hrsapp.serializers.diagnostico_serializer import DiagnosticoSerializer
 
 
 # Crear
-class CrearDiagnosticos(generics.CreateAPIView):
+class DiagnosticoCreateView(generics.CreateAPIView):
     queryset = Diagnostico.objects.all()
     serializer_class = DiagnosticoSerializer
 
 
 # Leer
-class ListaDiagnosticos(generics.ListAPIView):
+class DiagnosticoListView(generics.ListAPIView):
     queryset = Diagnostico.objects.all()
     serializer_class = DiagnosticoSerializer
 

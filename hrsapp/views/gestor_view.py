@@ -5,25 +5,25 @@ from hrsapp.serializers.gestor_serializer import GestorSerializer
 # CRUD Gestor
 
 
-# Crear
-class CrearGestors(generics.CreateAPIView):
+# Crear Gestor
+class GestorCreateView(generics.CreateAPIView):
     queryset = Gestor.objects.all()
     serializer_class = GestorSerializer
 
 
-# Leer
-class ListaGestors(generics.ListAPIView):
+# Leer Gestores
+class GestorListView(generics.ListAPIView):
     queryset = Gestor.objects.all()
     serializer_class = GestorSerializer
 
 
-# Actualizar
+# Actualizar Gestor
 class GestorUpdateView(generics.UpdateAPIView):
     queryset = Gestor.objects.all()
     serializer_class = GestorSerializer
 
 
-# Eliminar
+# Eliminar Gestor
 class GestorDeleteView(generics.DestroyAPIView):
     queryset = Gestor.objects.all()
     serializer_class = GestorSerializer

@@ -5,25 +5,31 @@ from hrsapp.serializers.paciente_serializer import PacienteSerializer
 # CRUD Paciente
 
 
-# Crear
-class CrearPacientes(generics.CreateAPIView):
+# Crear Paciente
+class PacienteCreateView(generics.CreateAPIView):
     queryset = Paciente.objects.all()
     serializer_class = PacienteSerializer
 
 
-# Leer
-class ListaPacientes(generics.ListAPIView):
+# Leer Pacientes
+class PacienteListView(generics.ListAPIView):
     queryset = Paciente.objects.all()
     serializer_class = PacienteSerializer
 
 
-# Actualizar
+# Leer un Paciente en específico
+class PacienteDetailView(generics.RetrieveAPIView):
+    queryset = Paciente.objects.all()
+    serializer_class = PacienteSerializer
+
+
+# Actualizar Paciente
 class PacienteUpdateView(generics.UpdateAPIView):
     queryset = Paciente.objects.all()
     serializer_class = PacienteSerializer
 
 
-# Eliminar
+# Eliminar Paciente
 class PacienteDeleteView(generics.DestroyAPIView):
     queryset = Paciente.objects.all()
     serializer_class = PacienteSerializer
