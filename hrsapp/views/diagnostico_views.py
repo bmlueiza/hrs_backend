@@ -5,14 +5,20 @@ from hrsapp.serializers.diagnostico_serializer import DiagnosticoSerializer
 # CRUD Diagnostico
 
 
-# Crear
+# Crear Diagnostico
 class DiagnosticoCreateView(generics.CreateAPIView):
     queryset = Diagnostico.objects.all()
     serializer_class = DiagnosticoSerializer
 
 
-# Leer
+# Leer Diagnosticos
 class DiagnosticoListView(generics.ListAPIView):
+    queryset = Diagnostico.objects.all()
+    serializer_class = DiagnosticoSerializer
+
+
+# Leer un Diagnostico en específico
+class DiagnosticoDetailView(generics.RetrieveAPIView):
     queryset = Diagnostico.objects.all()
     serializer_class = DiagnosticoSerializer
 
