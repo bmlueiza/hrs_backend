@@ -5,7 +5,7 @@ from hrsapp.models.diagnostico import Diagnostico
 class DiagnosticoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Diagnostico
-        fields = ["nombre", "codigo", "descripcion"]
+        fields = "__all__"
 
 
 class DiagnosticoCodigoSerializer(serializers.ModelSerializer):

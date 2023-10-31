@@ -29,5 +29,7 @@ urlpatterns = [
     path("hrsapp/", include("hrsapp.urls.medicamento_urls")),
     # Rutas de medicos desde la app hrsapp
     path("hrsapp/", include("hrsapp.urls.medico_urls")),
+    # Rutas de gestores desde la app hrsapp
+    path("hrsapp/", include("hrsapp.urls.gestor_urls")),
     # Otras rutas principales
 ]
