@@ -17,6 +17,12 @@ class GestorListView(generics.ListAPIView):
     serializer_class = GestorSerializer
 
 
+# Leer un Gestor en específico
+class GestorDetailView(generics.RetrieveAPIView):
+    queryset = Gestor.objects.all()
+    serializer_class = GestorSerializer
+
+
 # Actualizar Gestor
 class GestorUpdateView(generics.UpdateAPIView):
     queryset = Gestor.objects.all()
