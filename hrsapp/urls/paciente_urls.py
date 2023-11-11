@@ -12,5 +12,10 @@ urlpatterns = [
         paciente_views.PacienteDetailView.as_view(),
         name="detalle_paciente",
     ),
+    path(
+        "api/pacientes/crear/",
+        paciente_views.PacienteCreateView.as_view(),
+        name="crear_paciente",
+    ),
     # Otras rutas relacionadas con pacientes
 ]
