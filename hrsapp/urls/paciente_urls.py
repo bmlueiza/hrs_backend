@@ -13,7 +13,7 @@ urlpatterns = [
         name="detalle_paciente",
     ),
     path(
-        "api/pacientes/crear/",
+        "api/pacientes/create/",
         paciente_views.PacienteCreateView.as_view(),
         name="crear_paciente",
     ),

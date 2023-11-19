@@ -5,20 +5,10 @@ from hrsapp.serializers.paciente_serializer import PacienteSerializer
 # CRUD Paciente
 
 
-# Crear Paciente
+# Crear y Listar Paciente
 class PacienteCreateView(generics.CreateAPIView):
     queryset = Paciente.objects.all()
     serializer_class = PacienteSerializer
-
-    def perform_create(self, serializer):
-        gestor_id = self.request.data.get("gestor", None)
-        diagnosticos_ids = self.request.data.get("diagnosticos", [])
-        paciente = serializer.save()
-        paciente.diagnosticos.set(diagnosticos_ids)
-
-        if gestor_id:
-            paciente.gestor = gestor_id
-            paciente.save()
 
 
 # Leer Pacientes

@@ -16,11 +16,13 @@ class Paciente(models.Model):
     alergias = models.CharField(max_length=50, null=True)
 
     # Foreign Keys
-    gestor = models.ForeignKey(Gestor, on_delete=models.CASCADE)
+    gestor = models.ForeignKey(
+        Gestor, on_delete=models.CASCADE, related_name="pacientes"
+    )
     diagnosticos = models.ManyToManyField(Diagnostico)
     # motivo_consulta = models.CharField(max_length=50)
     # fecha_ingreso = models.DateField()
     # fecha_alta = models.DateField()
 
     def __str__(self):
-        return self.nombre + " " + self.apellido1
+        return self.nombres + " " + self.apellido1
