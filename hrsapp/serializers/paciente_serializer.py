@@ -1,11 +1,13 @@
 from rest_framework import serializers
 from hrsapp.models.paciente import Paciente
-from hrsapp.serializers.diagnostico_serializer import DiagnosticoSerializer
 from hrsapp.models.gestor import Gestor
 
 
 class PacienteSerializer(serializers.ModelSerializer):
-    gestor = serializers.PrimaryKeyRelatedField(queryset=Gestor.objects.all())
+    gestor = serializers.PrimaryKeyRelatedField(
+        queryset=Gestor.objects.all(),  # Asegúrate de importar Gestor
+        required=True,
+    )
 
     class Meta:
         model = Paciente
