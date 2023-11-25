@@ -16,6 +16,12 @@ class PacienteListView(generics.ListAPIView):
     queryset = Paciente.objects.all()
     serializer_class = PacienteSerializer
 
+    def get_queryset(self):
+        termino = self.request.query_params.get("termino", None)
+        if termino:
+            return Paciente.buscar_pacientes(termino)
+        return super().get_queryset()
+
 
 # Leer un Paciente en específico
 class PacienteDetailView(generics.RetrieveAPIView):

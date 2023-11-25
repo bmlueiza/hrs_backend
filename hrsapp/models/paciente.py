@@ -1,7 +1,6 @@
 from django.db import models
 from .gestor import Gestor
 from .diagnostico import Diagnostico
-from .medicamento import Medicamento
 
 
 class Paciente(models.Model):
@@ -24,5 +23,11 @@ class Paciente(models.Model):
     # fecha_ingreso = models.DateField()
     # fecha_alta = models.DateField()
 
-    def __str__(self):
-        return self.nombres + " " + self.apellido1
+    @classmethod
+    def buscar_pacientes(cls, query):
+        return cls.objects.filter(
+            models.Q(nombres__icontains=query)
+            | models.Q(apellido1__icontains=query)
+            | models.Q(apellido2__icontains=query)
+            | models.Q(rut__icontains=query)
+        )
