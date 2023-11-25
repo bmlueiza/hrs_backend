@@ -11,3 +11,11 @@ class Gestor(models.Model):
 
     def __str__(self):
         return self.nombre + " " + self.apellido
+
+    @classmethod
+    def buscar_gestores(cls, query):
+        return cls.objects.filter(
+            models.Q(nombre__icontains=query)
+            | models.Q(apellido__icontains=query)
+            | models.Q(rut__icontains=query)
+        )
