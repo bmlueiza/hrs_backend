@@ -16,6 +16,12 @@ class GestorListView(generics.ListAPIView):
     queryset = Gestor.objects.all()
     serializer_class = GestorSerializer
 
+    def get_queryset(self):
+        termino = self.request.query_params.get("termino", None)
+        if termino:
+            return Gestor.buscar_gestores(termino)
+        return super().get_queryset()
+
 
 # Leer un Gestor en específico
 class GestorDetailView(generics.RetrieveAPIView):
