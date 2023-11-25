@@ -14,8 +14,26 @@ class PacienteSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def to_representation(self, instance):
-        data = super(PacienteSerializer, self).to_representation(instance)
+        representation = super().to_representation(instance)
+        # Cambia el formato de la fecha de nacimiento a día-mes-año
+        representation["fecha_nacimiento"] = instance.fecha_nacimiento.strftime(
+            "%d-%m-%Y"
+        )
         # Reemplaza los IDs de diagnósticos con los códigos correspondientes
         diagnosticos = instance.diagnosticos.all()
-        data["diagnosticos"] = [diagnosticos.codigo for diagnosticos in diagnosticos]
-        return data
+        representation["diagnosticos"] = [
+            diagnostico.codigo for diagnostico in diagnosticos
+        ]
+        return representation
+
+    def create(self, validated_data):
+        rut = validated_data.get("rut")
+
+        # Extrae los IDs de diagnósticos de los datos validados
+        diagnosticos = validated_data.pop("diagnosticos")
+        # Crea el paciente
+        paciente = Paciente.objects.create(**validated_data)
+        # Asigna los diagnósticos al paciente
+        for diagnostico in diagnosticos:
+            paciente.diagnosticos.add(diagnostico)
+        return paciente
