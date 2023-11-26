@@ -1,4 +1,6 @@
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.response import Response
+from rest_framework import serializers
 from hrsapp.models.gestor import Gestor
 from hrsapp.serializers.gestor_serializer import GestorSerializer
 
@@ -9,6 +11,19 @@ from hrsapp.serializers.gestor_serializer import GestorSerializer
 class GestorCreateView(generics.CreateAPIView):
     queryset = Gestor.objects.all()
     serializer_class = GestorSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            gestor = serializer.save()
+        except serializers.ValidationError as error:
+            return Response({"error": error.detail}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(
+            {"detail": "Gestor creado correctamente."}, status=status.HTTP_201_CREATED
+        )
 
 
 # Leer Gestores
