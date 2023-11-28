@@ -26,6 +26,13 @@ class PacienteSerializer(serializers.ModelSerializer):
         ]
         return representation
 
+    def validate_rut(self, value):
+        if not value:
+            raise serializers.ValidationError("Debe ingresar un RUT.")
+        elif Paciente.objects.filter(rut=value).exists():
+            raise serializers.ValidationError("Ya existe un paciente con ese RUT.")
+        return value
+
     def create(self, validated_data):
         rut = validated_data.get("rut")
 
