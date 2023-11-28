@@ -4,10 +4,12 @@ from .paciente import Paciente
 
 class Observacion(models.Model):
     contenido = models.CharField(max_length=250)
-    fecha = models.DateField()
+    fecha_generacion = models.DateField()
 
     # Foreign Keys
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    paciente = models.ForeignKey(
+        Paciente, on_delete=models.CASCADE, related_name="observaciones"
+    )
     gestor = models.ForeignKey(
-        Paciente, on_delete=models.CASCADE, related_name="gestor_id"
+        Paciente, on_delete=models.CASCADE, related_name="observaciones_gestor"
     )
