@@ -4,12 +4,12 @@ import hrsapp.views.medico_views as medico_views
 urlpatterns = [
     path(
         "api/medicos/",
-        medico_views.MedicoListView.as_view(),
-        name="lista_medicos",
+        medico_views.MedicoCreateListView.as_view(),
+        name="lista_crear_medicos",
     ),
     path(
         "api/medicos/<int:pk>/",
-        medico_views.MedicoDetailView.as_view(),
-        name="detalle_medico",
+        medico_views.MedicoDetailUpdateDeleteView.as_view(),
+        name="detalle_actualizar_eliminar_medico",
     ),
 ]

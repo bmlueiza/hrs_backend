@@ -5,6 +5,11 @@ urlpatterns = [
     path(
         "api/recomendaciones/",
         recomendacion_views.RecomendacionListView.as_view(),
-        name="lista_recomendaciones",
+        name="lista_crear_recomendaciones",
+    ),
+    path(
+        "api/recomendaciones/<int:pk>/",
+        recomendacion_views.RecomendacionDetailView.as_view(),
+        name="detalle_actualizar_eliminar_recomendacion",
     ),
 ]

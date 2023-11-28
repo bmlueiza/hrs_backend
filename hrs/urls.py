@@ -21,17 +21,34 @@ from rest_framework.documentation import include_docs_urls
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("docs/", include_docs_urls(title="HRS API Documentation")),
-    # Rutas de pacientes desde la app hrsapp
-    path("hrsapp/", include("hrsapp.urls.paciente_urls")),
-    # Rutas de recomendaciones desde la app hrsapp
-    path("hrsapp/", include("hrsapp.urls.recomendacion_urls")),
-    # Rutas de diagnosticos desde la app hrsapp
+    # Rutas de acceso desde la app hrsapp
+    # Rutas de acciones de gestores
+    path("hrsapp/", include("hrsapp.urls.accion_gestor_urls")),
+    # Rutas de actividades medicas
+    path("hrsapp/", include("hrsapp.urls.actividad_medica_urls")),
+    # Rutas de asignaciones de actividades
+    path("hrsapp/", include("hrsapp.urls.asignacion_actividad_urls")),
+    # Rutas de diagnosticos
     path("hrsapp/", include("hrsapp.urls.diagnostico_urls")),
-    # Rutas de medicamentos desde la app hrsapp
-    path("hrsapp/", include("hrsapp.urls.medicamento_urls")),
-    # Rutas de medicos desde la app hrsapp
-    path("hrsapp/", include("hrsapp.urls.medico_urls")),
-    # Rutas de gestores desde la app hrsapp
+    # Rutas de gestores
     path("hrsapp/", include("hrsapp.urls.gestor_urls")),
+    # Rutas de historiales de contacto
+    path("hrsapp/", include("hrsapp.urls.historial_contacto_urls")),
+    # Rutas de historiales de medicamentos
+    path("hrsapp/", include("hrsapp.urls.historial_medicamento_urls")),
+    # Rutas de medicamentos
+    path("hrsapp/", include("hrsapp.urls.medicamento_urls")),
+    # Rutas de medicos
+    path("hrsapp/", include("hrsapp.urls.medico_urls")),
+    # Rutas de motivos
+    path("hrsapp/", include("hrsapp.urls.motivo_urls")),
+    # Rutas de observaciones
+    path("hrsapp/", include("hrsapp.urls.observacion_urls")),
+    # Rutas de pacientes
+    path("hrsapp/", include("hrsapp.urls.paciente_urls")),
+    # Rutas de recomendaciones
+    path("hrsapp/", include("hrsapp.urls.recomendacion_urls")),
+    # Rutas de resultados de contactos
+    path("hrsapp/", include("hrsapp.urls.resultado_contacto_urls")),
     # Otras rutas principales
 ]

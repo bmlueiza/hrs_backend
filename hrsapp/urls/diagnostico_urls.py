@@ -12,4 +12,9 @@ urlpatterns = [
         diagnostico_views.DiagnosticoDetailView.as_view(),
         name="detalle_diagnostico",
     ),
+    path(
+        "api/diagnosticos/create/",
+        diagnostico_views.DiagnosticoCreateView.as_view(),
+        name="crear_diagnostico",
+    ),
 ]
