@@ -5,31 +5,13 @@ from hrsapp.serializers.medico_serializer import MedicoSerializer
 # CRUD Médico
 
 
-# Crear Médico
-class MedicoCreateView(generics.CreateAPIView):
+# Crear y listar Medicos
+class MedicoCreateListView(generics.ListCreateAPIView):
     queryset = Medico.objects.all()
     serializer_class = MedicoSerializer
 
 
-# Leer Médicos
-class MedicoListView(generics.ListAPIView):
-    queryset = Medico.objects.all()
-    serializer_class = MedicoSerializer
-
-
-# Leer un Médico en específico
-class MedicoDetailView(generics.RetrieveAPIView):
-    queryset = Medico.objects.all()
-    serializer_class = MedicoSerializer
-
-
-# Actualizar Médico
-class MedicoUpdateView(generics.UpdateAPIView):
-    queryset = Medico.objects.all()
-    serializer_class = MedicoSerializer
-
-
-# Eliminar Médico
-class MedicoDeleteView(generics.DestroyAPIView):
+# Leer, actualizar y eliminar un Medico en específico
+class MedicoDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Medico.objects.all()
     serializer_class = MedicoSerializer

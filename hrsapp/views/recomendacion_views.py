@@ -5,31 +5,13 @@ from hrsapp.serializers.recomendacion_serializer import RecomendacionSerializer
 # CRUD Recomendacion
 
 
-# Crear Recomendacion
-class RecomendacionCreateView(generics.CreateAPIView):
+# Crear y leer Recomendaciones
+class RecomendacionListView(generics.ListCreateAPIView):
     queryset = Recomendacion.objects.all()
     serializer_class = RecomendacionSerializer
 
 
-# Leer Recomendaciones
-class RecomendacionListView(generics.ListAPIView):
-    queryset = Recomendacion.objects.all()
-    serializer_class = RecomendacionSerializer
-
-
-# Leer una Recomendacion en específico
-class RecomendacionDetailView(generics.RetrieveAPIView):
-    queryset = Recomendacion.objects.all()
-    serializer_class = RecomendacionSerializer
-
-
-# Actualizar una Recomendacion
-class RecomendacionUpdateView(generics.UpdateAPIView):
-    queryset = Recomendacion.objects.all()
-    serializer_class = RecomendacionSerializer
-
-
-# Eliminar una Recomendacion
-class RecomendacionDeleteView(generics.DestroyAPIView):
+# Leer, editar y eliminar una Recomendacion en específico
+class RecomendacionDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Recomendacion.objects.all()
     serializer_class = RecomendacionSerializer

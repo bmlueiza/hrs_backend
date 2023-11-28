@@ -5,31 +5,13 @@ from hrsapp.serializers.observacion_serializer import ObservacionSerializer
 # CRUD Observacion
 
 
-# Crear una Observacion
-class ObservacionCreateView(generics.CreateAPIView):
+# Crear y leer Observaciones
+class ObservacionCreateListView(generics.ListCreateAPIView):
     queryset = Observacion.objects.all()
     serializer_class = ObservacionSerializer
 
 
-# Leer Observaciones
-class ObservacionListView(generics.ListAPIView):
-    queryset = Observacion.objects.all()
-    serializer_class = ObservacionSerializer
-
-
-# Leer una Observacion en específico
-class ObservacionDetailView(generics.RetrieveAPIView):
-    queryset = Observacion.objects.all()
-    serializer_class = ObservacionSerializer
-
-
-# Actualizar una Observacion
-class ObservacionUpdateView(generics.UpdateAPIView):
-    queryset = Observacion.objects.all()
-    serializer_class = ObservacionSerializer
-
-
-# Eliminar una Observacion
-class ObservacionDeleteView(generics.DestroyAPIView):
+# Leer, editar y eliminar una Observacion en específico
+class ObservacionDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Observacion.objects.all()
     serializer_class = ObservacionSerializer
