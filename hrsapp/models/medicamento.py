@@ -8,3 +8,9 @@ class Medicamento(models.Model):
 
     def __str__(self):
         return self.nombre
+
+    @classmethod
+    def buscar_medicamentos(cls, query):
+        return cls.objects.filter(
+            models.Q(nombre__icontains=query) | models.Q(codigo__icontains=query)
+        )

@@ -9,9 +9,8 @@ class Diagnostico(models.Model):
     def __str__(self):
         return self.nombre
 
-
-@classmethod
-def buscar_diagnosticos(cls, query):
-    return cls.objects.filter(
-        models.Q(nombre__icontains=query) | models.Q(codigo__icontains=query)
-    )
+    @classmethod
+    def buscar_diagnosticos(cls, query):
+        return cls.objects.filter(
+            models.Q(nombre__icontains=query) | models.Q(codigo__icontains=query)
+        )
