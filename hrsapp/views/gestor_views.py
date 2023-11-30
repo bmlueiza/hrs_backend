@@ -7,8 +7,8 @@ from hrsapp.serializers.gestor_serializer import GestorSerializer
 # CRUD Gestor
 
 
-# Crear Gestor
-class GestorCreateView(generics.CreateAPIView):
+# Crear y leer Gestores
+class GestorCreateListView(generics.ListCreateAPIView):
     queryset = Gestor.objects.all()
     serializer_class = GestorSerializer
 
@@ -25,12 +25,6 @@ class GestorCreateView(generics.CreateAPIView):
             {"detail": "Gestor creado correctamente."}, status=status.HTTP_201_CREATED
         )
 
-
-# Leer Gestores
-class GestorListView(generics.ListAPIView):
-    queryset = Gestor.objects.all()
-    serializer_class = GestorSerializer
-
     def get_queryset(self):
         termino = self.request.query_params.get("termino", None)
         if termino:
@@ -38,19 +32,17 @@ class GestorListView(generics.ListAPIView):
         return super().get_queryset()
 
 
-# Leer un Gestor en específico
-class GestorDetailView(generics.RetrieveAPIView):
+# Leer, editar y eliminar un Gestor en específico
+class GestorDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Gestor.objects.all()
     serializer_class = GestorSerializer
 
-
-# Actualizar Gestor
-class GestorUpdateView(generics.UpdateAPIView):
-    queryset = Gestor.objects.all()
-    serializer_class = GestorSerializer
-
-
-# Eliminar Gestor
-class GestorDeleteView(generics.DestroyAPIView):
-    queryset = Gestor.objects.all()
-    serializer_class = GestorSerializer
+    def delete(self, request, *args, **kwargs):
+        gestor = self.get_object()
+        if gestor.usuario.is_superuser:
+            return Response(
+                {"detail": "No se puede eliminar un gestor administrador"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        self.perform_destroy(gestor)
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -7,8 +7,15 @@ class DiagnosticoSerializer(serializers.ModelSerializer):
         model = Diagnostico
         fields = "__all__"
 
+    def validate_codigo(self, value):
+        if value == "":
+            raise serializers.ValidationError("Debe ingresar un código.")
+        elif Diagnostico.objects.filter(codigo=value).exists():
+            raise serializers.ValidationError(
+                "Ya existe un diagnóstico con ese código."
+            )
+        return value
 
-class DiagnosticoCodigoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Diagnostico
-        fields = ["codigo"]
+    def create(self, validated_data):
+        diagnostico = Diagnostico.objects.create(**validated_data)
+        return diagnostico

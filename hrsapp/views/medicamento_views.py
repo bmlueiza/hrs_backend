@@ -10,6 +10,12 @@ class MedicamentoCreateListView(generics.ListCreateAPIView):
     queryset = Medicamento.objects.all()
     serializer_class = MedicamentoSerializer
 
+    def get_queryset(self):
+        termino = self.request.query_params.get("termino", None)
+        if termino:
+            return Medicamento.buscar_medicamentos(termino)
+        return super().get_queryset()
+
 
 # Leer, actualizar y eliminar un Medicamento en específico
 class MedicamentoDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):

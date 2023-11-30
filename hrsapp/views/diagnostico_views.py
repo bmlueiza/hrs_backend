@@ -1,35 +1,24 @@
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.response import Response
 from hrsapp.models.diagnostico import Diagnostico
 from hrsapp.serializers.diagnostico_serializer import DiagnosticoSerializer
 
 # CRUD Diagnostico
 
 
-# Crear Diagnostico
-class DiagnosticoCreateView(generics.CreateAPIView):
+# Crear y leer Diagnostico
+class DiagnosticoCreateListView(generics.ListCreateAPIView):
     queryset = Diagnostico.objects.all()
     serializer_class = DiagnosticoSerializer
 
-
-# Leer Diagnosticos
-class DiagnosticoListView(generics.ListAPIView):
-    queryset = Diagnostico.objects.all()
-    serializer_class = DiagnosticoSerializer
-
-
-# Leer un Diagnostico en específico
-class DiagnosticoDetailView(generics.RetrieveAPIView):
-    queryset = Diagnostico.objects.all()
-    serializer_class = DiagnosticoSerializer
+    def get_queryset(self):
+        termino = self.request.query_params.get("termino", None)
+        if termino:
+            return Diagnostico.buscar_diagnosticos(termino)
+        return super().get_queryset()
 
 
-# Actualizar
-class DiagnosticoUpdateView(generics.UpdateAPIView):
-    queryset = Diagnostico.objects.all()
-    serializer_class = DiagnosticoSerializer
-
-
-# Eliminar
-class DiagnosticoDeleteView(generics.DestroyAPIView):
+# Leer, actualizar y eliminar Diagnostico
+class DiagnosticoDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Diagnostico.objects.all()
     serializer_class = DiagnosticoSerializer

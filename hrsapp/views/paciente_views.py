@@ -1,18 +1,16 @@
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from hrsapp.models.paciente import Paciente
 from hrsapp.serializers.paciente_serializer import PacienteSerializer
+from hrsapp.models.observacion import Observacion
+from hrsapp.serializers.observacion_serializer import ObservacionSerializer
 
 # CRUD Paciente
 
 
-# Crear y Listar Paciente
-class PacienteCreateView(generics.CreateAPIView):
-    queryset = Paciente.objects.all()
-    serializer_class = PacienteSerializer
-
-
-# Leer Pacientes
-class PacienteListView(generics.ListAPIView):
+# Crear y leer Pacientes
+class PacienteCreateListView(generics.ListCreateAPIView):
     queryset = Paciente.objects.all()
     serializer_class = PacienteSerializer
 
@@ -23,19 +21,28 @@ class PacienteListView(generics.ListAPIView):
         return super().get_queryset()
 
 
-# Leer un Paciente en específico
-class PacienteDetailView(generics.RetrieveAPIView):
+# Leer, editar y eliminar un Paciente en específico
+class PacienteDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Paciente.objects.all()
     serializer_class = PacienteSerializer
 
 
-# Actualizar Paciente
-class PacienteUpdateView(generics.UpdateAPIView):
-    queryset = Paciente.objects.all()
-    serializer_class = PacienteSerializer
+class PacienteObservacionesView(APIView):
+    def get(self, request, paciente_id):
+        try:
+            paciente = Paciente.objects.get(id=paciente_id)
+        except Paciente.DoesNotExist:
+            return Response(
+                {"error": "Paciente no encontrado"}, status=status.HTTP_404_NOT_FOUND
+            )
 
+        observaciones = Observacion.objects.filter(paciente=paciente)
+        observaciones_serializer = ObservacionSerializer(observaciones, many=True)
 
-# Eliminar Paciente
-class PacienteDeleteView(generics.DestroyAPIView):
-    queryset = Paciente.objects.all()
-    serializer_class = PacienteSerializer
+        paciente_serializer = PacienteSerializer(paciente)
+        data = {
+            "paciente": paciente_serializer.data,
+            "observaciones": observaciones_serializer.data,
+        }
+
+        return Response(data)
