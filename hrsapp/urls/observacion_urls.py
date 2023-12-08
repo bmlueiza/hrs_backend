@@ -13,4 +13,9 @@ urlpatterns = [
         observacion_views.ObservacionDetailUpdateDeleteView.as_view(),
         name="detalle_actualizar_eliminar_observacion",
     ),
+    path(
+        "api/pacientes/<int:id_paciente>/observaciones/",
+        observacion_views.ObservacionByPacienteListView.as_view(),
+        name="lista_observaciones_por_paciente",
+    ),
 ]

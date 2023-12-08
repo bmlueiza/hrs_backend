@@ -15,3 +15,12 @@ class ObservacionCreateListView(generics.ListCreateAPIView):
 class ObservacionDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Observacion.objects.all()
     serializer_class = ObservacionSerializer
+
+
+# Leer observaciones de un paciente en específico (por su id)
+class ObservacionByPacienteListView(generics.ListAPIView):
+    serializer_class = ObservacionSerializer
+
+    def get_queryset(self):
+        id_paciente = self.kwargs["id_paciente"]
+        return Observacion.objects.filter(paciente=id_paciente)
