@@ -24,6 +24,11 @@ class PacienteSerializer(serializers.ModelSerializer):
         representation["diagnosticos"] = [
             diagnostico.codigo for diagnostico in diagnosticos
         ]
+        # Convertir valores numéricos a sus representaciones legibles
+        representation["sexo"] = dict(Paciente.SEXO_CHOICES).get(representation["sexo"])
+        representation["riesgo"] = dict(Paciente.RIESGO_CHOICES).get(
+            representation["riesgo"]
+        )
         return representation
 
     def validate_rut(self, value):
