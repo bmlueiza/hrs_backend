@@ -39,7 +39,7 @@ class AsignacionActividadPacientePendienteListView(generics.ListAPIView):
         actividades_queryset = (
             AsignacionActividad.objects.filter(
                 paciente=paciente_id,
-                estado__in=[1, 4],
+                estado__in=[1],
             )
             .values_list("actividad_medica__nombre", flat=True)
             .distinct()
