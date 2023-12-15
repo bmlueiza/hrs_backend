@@ -19,7 +19,9 @@ class AsignacionActividadSerializer(serializers.ModelSerializer):
         )
         # Reemplaza el ID del paciente con su nombre y apellido
         paciente = instance.paciente
-        representation["paciente"] = f"{paciente.nombre} {paciente.apellido}"
+        representation[
+            "paciente"
+        ] = f"{paciente.nombres} {paciente.apellido1} {paciente.apellido2}"
         # Reemplaza el ID del médico con su nombre y apellido
         medico = instance.medico
         if medico is not None:

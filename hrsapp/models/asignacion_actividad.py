@@ -13,6 +13,7 @@ class AsignacionActividad(models.Model):
     ]
     fecha_asignacion = models.DateField()
     fecha_actividad = models.DateField()
+    hora_actividad = models.TimeField(default=None, null=True, blank=True)
     estado = models.IntegerField(choices=ESTADO_CHOICES)
 
     # Foreign Keys
