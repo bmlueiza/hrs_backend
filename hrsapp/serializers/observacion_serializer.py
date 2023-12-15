@@ -4,10 +4,10 @@ from hrsapp.models.paciente import Paciente
 
 
 class ObservacionSerializer(serializers.ModelSerializer):
-    # paciente = serializers.PrimaryKeyRelatedField(
-    #    queryset=Paciente.objects.all(),  # Asegúrate de importar Paciente
-    #    required=True,
-    # )
+    paciente = serializers.PrimaryKeyRelatedField(
+        queryset=Paciente.objects.all(),
+        required=True,
+    )
 
     class Meta:
         model = Observacion
@@ -23,10 +23,3 @@ class ObservacionSerializer(serializers.ModelSerializer):
         gestor = instance.gestor
         representation["gestor"] = f"{gestor.nombre} {gestor.apellido}"
         return representation
-
-    # def create(self, validated_data):
-    #    rut = validated_data.get("rut")
-    #    paciente = Paciente.objects.get(rut=rut)
-    #    observacion = Observacion.objects.create(**validated_data)
-    #    observacion.paciente.add(paciente)
-    #    return observacion

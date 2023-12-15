@@ -5,7 +5,7 @@ from hrsapp.models.gestor import Gestor
 
 class PacienteSerializer(serializers.ModelSerializer):
     gestor = serializers.PrimaryKeyRelatedField(
-        queryset=Gestor.objects.all(),  # Asegúrate de importar Gestor
+        queryset=Gestor.objects.all(),
         required=True,
     )
 
