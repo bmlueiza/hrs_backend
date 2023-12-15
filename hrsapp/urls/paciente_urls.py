@@ -17,4 +17,24 @@ urlpatterns = [
         paciente_views.PacienteObservacionesView.as_view(),
         name="observaciones_paciente",
     ),
+    path(
+        "api/pacientes/diagnostico/<int:diagnostico_id>/",
+        paciente_views.PacienteByDiagnosticoListView.as_view(),
+        name="pacientes_por_diagnostico",
+    ),
+    path(
+        "api/pacientes/riesgo/<int:riesgo>/",
+        paciente_views.PacienteByRiesgoListView.as_view(),
+        name="pacientes_por_riesgo",
+    ),
+    path(
+        "api/pacientes/sexos/",
+        paciente_views.PacienteSexoListView.as_view(),
+        name="opciones_sexo",
+    ),
+    path(
+        "api/pacientes/riesgos/",
+        paciente_views.PacienteRiesgoListView.as_view(),
+        name="opciones_riesgo",
+    ),
 ]

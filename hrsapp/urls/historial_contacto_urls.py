@@ -13,4 +13,9 @@ urlpatterns = [
         historial_contacto_views.HistorialContactoDetailUpdateDeleteView.as_view(),
         name="detalle_actualizar_eliminar_historial_contacto",
     ),
+    path(
+        "api/historiales_contacto/paciente/<int:pk>/",
+        historial_contacto_views.HistorialContactoPacienteListView.as_view(),
+        name="lista_historiales_contacto_paciente",
+    ),
 ]

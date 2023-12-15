@@ -13,4 +13,9 @@ urlpatterns = [
         asignacion_actividad_views.AsignacionActividadDetailUpdateDeleteView.as_view(),
         name="detalle_actualizar_eliminar_asignacion_actividad",
     ),
+    path(
+        "api/asignacion_actividades/paciente/<int:pk>/",
+        asignacion_actividad_views.AsignacionActividadPacienteListView.as_view(),
+        name="lista_asignacion_actividades_paciente",
+    ),
 ]
