@@ -18,3 +18,12 @@ class HistorialMedicamentoCreateListView(generics.ListCreateAPIView):
 class HistorialMedicamentoDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = HistorialMedicamento.objects.all()
     serializer_class = HistorialMedicamentoSerializer
+
+
+# Leer Historial Medicamentos de un paciente en específico
+class HistorialMedicamentoPacienteListView(generics.ListAPIView):
+    serializer_class = HistorialMedicamentoSerializer
+
+    def get_queryset(self):
+        paciente_id = self.kwargs["pk"]
+        return HistorialMedicamento.objects.filter(paciente=paciente_id)

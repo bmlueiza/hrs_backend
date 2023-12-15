@@ -15,3 +15,12 @@ class RecomendacionListView(generics.ListCreateAPIView):
 class RecomendacionDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Recomendacion.objects.all()
     serializer_class = RecomendacionSerializer
+
+
+# Leer Recomendaciones de un paciente en específico
+class RecomendacionPacienteListView(generics.ListAPIView):
+    serializer_class = RecomendacionSerializer
+
+    def get_queryset(self):
+        paciente_id = self.kwargs["pk"]
+        return Recomendacion.objects.filter(paciente=paciente_id)

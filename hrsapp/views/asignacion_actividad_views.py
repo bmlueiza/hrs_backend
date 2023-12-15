@@ -17,3 +17,12 @@ class AsignacionActividadCreateListView(generics.ListCreateAPIView):
 class AsignacionActividadDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = AsignacionActividad.objects.all()
     serializer_class = AsignacionActividadSerializer
+
+
+# Leer una AsignacionActividad de un paciente en específico
+class AsignacionActividadPacienteListView(generics.ListAPIView):
+    serializer_class = AsignacionActividadSerializer
+
+    def get_queryset(self):
+        paciente_id = self.kwargs["pk"]
+        return AsignacionActividad.objects.filter(paciente=paciente_id)

@@ -27,6 +27,42 @@ class PacienteDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PacienteSerializer
 
 
+# Leer pacientes según su diagnóstico
+class PacienteByDiagnosticoListView(generics.ListAPIView):
+    serializer_class = PacienteSerializer
+
+    def get_queryset(self):
+        try:
+            id_diagnostico = self.kwargs["diagnostico_id"]
+            return Paciente.objects.filter(diagnosticos__id=id_diagnostico)
+        except KeyError:
+            return Paciente.objects.none()
+
+
+# Leer pacientes según su riesgo
+class PacienteByRiesgoListView(generics.ListAPIView):
+    serializer_class = PacienteSerializer
+
+    def get_queryset(self):
+        try:
+            riesgo = int(self.kwargs["riesgo"])
+            return Paciente.objects.filter(riesgo=riesgo)
+        except (KeyError, ValueError):
+            return Paciente.objects.none()
+
+
+# Funcion para obtener opciones de sexo
+class PacienteSexoListView(APIView):
+    def get(self, request):
+        return Response(Paciente.SEXO_CHOICES)
+
+
+# Funcion para obtener opciones de riesgo
+class PacienteRiesgoListView(APIView):
+    def get(self, request):
+        return Response(Paciente.RIESGO_CHOICES)
+
+
 class PacienteObservacionesView(APIView):
     def get(self, request, paciente_id):
         try:
