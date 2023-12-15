@@ -3,7 +3,6 @@ from django.db import models
 
 class ActividadMedica(models.Model):
     nombre = models.CharField(max_length=50, unique=True)
-    codigo = models.CharField(max_length=10, unique=True, blank=True, null=True)
     descripcion = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
@@ -11,6 +10,4 @@ class ActividadMedica(models.Model):
 
     @classmethod
     def buscar_actividades(cls, query):
-        return cls.objects.filter(
-            models.Q(nombre__icontains=query) | models.Q(codigo__icontains=query)
-        )
+        return cls.objects.filter(models.Q(nombre__icontains=query))

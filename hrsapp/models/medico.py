@@ -7,6 +7,9 @@ class Medico(models.Model):
     apellido = models.CharField(max_length=25)
     especialidad = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.nombre + " " + self.apellido
+
     @classmethod
     def buscar_medicos(cls, query):
         return cls.objects.filter(

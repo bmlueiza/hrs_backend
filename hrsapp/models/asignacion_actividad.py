@@ -9,9 +9,10 @@ class AsignacionActividad(models.Model):
         (1, "Asignada"),
         (2, "Realizada"),
         (3, "Cancelada"),
+        (4, "No realizada"),
     ]
     fecha_asignacion = models.DateField()
-    fecha_realizacion = models.DateField()
+    fecha_actividad = models.DateField()
     estado = models.IntegerField(choices=ESTADO_CHOICES)
 
     # Foreign Keys

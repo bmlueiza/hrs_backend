@@ -28,9 +28,12 @@ class Paciente(models.Model):
 
     # Foreign Keys
     gestor = models.ForeignKey(
-        Gestor, on_delete=models.CASCADE, related_name="pacientes"
+        Gestor, on_delete=models.SET_DEFAULT, default=1, related_name="pacientes"
     )
     diagnosticos = models.ManyToManyField(Diagnostico, related_name="pacientes")
+
+    def __str__(self):
+        return self.nombres + " " + self.apellido1 + " " + self.apellido2
 
     @classmethod
     def buscar_pacientes(cls, query):
@@ -40,3 +43,11 @@ class Paciente(models.Model):
             | models.Q(apellido2__icontains=query)
             | models.Q(rut__icontains=query)
         )
+
+    @classmethod
+    def get_sex_choices(cls):
+        return dict(cls.SEXO_CHOICES)
+
+    @classmethod
+    def get_riesgo_choices(cls):
+        return dict(cls.RIESGO_CHOICES)
