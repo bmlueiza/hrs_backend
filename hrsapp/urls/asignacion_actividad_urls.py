@@ -18,4 +18,9 @@ urlpatterns = [
         asignacion_actividad_views.AsignacionActividadPacienteListView.as_view(),
         name="lista_asignacion_actividades_paciente",
     ),
+    path(
+        "api/asignacion_actividades/paciente/<int:pk>/pendientes/",
+        asignacion_actividad_views.AsignacionActividadPacientePendienteListView.as_view(),
+        name="lista_asignacion_actividades_paciente_pendientes",
+    ),
 ]
