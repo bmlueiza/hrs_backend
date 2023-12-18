@@ -7,7 +7,7 @@ class Diagnostico(models.Model):
     descripcion = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
-        return self.nombre
+        return self.codigo + self.nombre
 
     @classmethod
     def buscar_diagnosticos(cls, query):
