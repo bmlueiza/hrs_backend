@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from hrsapp.models.paciente import Paciente
 from hrsapp.serializers.paciente_serializer import PacienteSerializer
-from hrsapp.models.observacion import Observacion
-from hrsapp.serializers.observacion_serializer import ObservacionSerializer
+from hrsapp.models.diagnostico import Diagnostico
+from hrsapp.serializers.diagnostico_serializer import Diagnostico
 
 # CRUD Paciente
 
@@ -63,22 +63,26 @@ class PacienteRiesgoListView(APIView):
         return Response(Paciente.RIESGO_CHOICES)
 
 
-class PacienteObservacionesView(APIView):
-    def get(self, request, paciente_id):
+# Añadir diagnósticos a un paciente sin eliminar los anteriores
+class PacienteDiagnosticoAddView(APIView):
+    def put(self, request, pk):
         try:
-            paciente = Paciente.objects.get(id=paciente_id)
+            paciente = Paciente.objects.get(pk=pk)
+            diagnosticos_ids = request.data.get("diagnosticos", None)
+
+            if diagnosticos_ids:
+                # Filtrar solo los diagnósticos existentes en la base de datos
+                diagnosticos_existente = Diagnostico.objects.filter(
+                    id__in=diagnosticos_ids
+                )
+
+                # Agregar nuevos diagnósticos al paciente sin eliminar los anteriores
+                paciente.diagnosticos.add(*diagnosticos_existente)
+                paciente.save()
+
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
         except Paciente.DoesNotExist:
-            return Response(
-                {"error": "Paciente no encontrado"}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        observaciones = Observacion.objects.filter(paciente=paciente)
-        observaciones_serializer = ObservacionSerializer(observaciones, many=True)
-
-        paciente_serializer = PacienteSerializer(paciente)
-        data = {
-            "paciente": paciente_serializer.data,
-            "observaciones": observaciones_serializer.data,
-        }
-
-        return Response(data)
+            return Response(status=status.HTTP_404_NOT_FOUND)
