@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.response import Response
 from hrsapp.models.historial_medicamento import HistorialMedicamento
 from hrsapp.serializers.historial_medicamento_serializer import (
     HistorialMedicamentoSerializer,
@@ -27,3 +28,16 @@ class HistorialMedicamentoPacienteListView(generics.ListAPIView):
     def get_queryset(self):
         paciente_id = self.kwargs["pk"]
         return HistorialMedicamento.objects.filter(paciente=paciente_id)
+
+
+# Leer medicamento de Historial Medicamentos de un paciente en específico
+class MedicamentosPacienteListView(generics.ListAPIView):
+    def get(self, request, *args, **kwargs):
+        paciente_id = kwargs["pk"]
+        # Obtén una lista de nombres de medicamentos para el paciente específico
+        nombres_medicamentos = HistorialMedicamento.objects.filter(
+            paciente=paciente_id
+        ).values_list("medicamento__nombre", flat=True)
+
+        # Devuelve la lista de nombres como parte de la respuesta JSON
+        return Response({"nombres_medicamentos": list(nombres_medicamentos)})
