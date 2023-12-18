@@ -13,11 +13,6 @@ urlpatterns = [
         name="detalle_actualizar_eliminar_paciente",
     ),
     path(
-        "api/pacientes/<int:paciente_id>/observaciones/",
-        paciente_views.PacienteObservacionesView.as_view(),
-        name="observaciones_paciente",
-    ),
-    path(
         "api/pacientes/diagnostico/<int:diagnostico_id>/",
         paciente_views.PacienteByDiagnosticoListView.as_view(),
         name="pacientes_por_diagnostico",
@@ -36,5 +31,10 @@ urlpatterns = [
         "api/pacientes/riesgos/",
         paciente_views.PacienteRiesgoListView.as_view(),
         name="opciones_riesgo",
+    ),
+    path(
+        "api/pacientes/<int:pk>/agregar-diagnosticos/",
+        paciente_views.PacienteDiagnosticoAddView.as_view(),
+        name="agregar_diagnosticos_paciente",
     ),
 ]
