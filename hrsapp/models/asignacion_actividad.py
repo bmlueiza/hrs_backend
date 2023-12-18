@@ -20,13 +20,13 @@ class AsignacionActividad(models.Model):
     paciente = models.ForeignKey(
         Paciente, on_delete=models.CASCADE, related_name="asignaciones_medicas"
     )
+    actividad_medica = models.ForeignKey(
+        ActividadMedica, on_delete=models.CASCADE, related_name="asignaciones_medicas"
+    )
     medico = models.ForeignKey(
         Medico,
         on_delete=models.CASCADE,
         related_name="asignaciones_medicas",
         blank=True,
         null=True,
-    )
-    actividad_medica = models.ForeignKey(
-        ActividadMedica, on_delete=models.CASCADE, related_name="asignaciones_medicas"
     )

@@ -2,11 +2,19 @@ from django.db import models
 from .paciente import Paciente
 from .accion_gestor import AccionGestor
 from .resultado_contacto import ResultadoContacto
-from .motivo import Motivo
+from .gestor import Gestor
 
 
 class HistorialContacto(models.Model):
+    TIPO_MOTIVO_CHOICES = [
+        (1, "Asignación"),
+        (2, "Medicamento"),
+        (3, "Diagnóstico"),
+    ]
     fecha = models.DateField()
+    hora = models.TimeField()
+    tipo_motivo = models.IntegerField(choices=TIPO_MOTIVO_CHOICES)
+    motivo = models.CharField(max_length=50)
 
     # Foreign Keys
     paciente = models.ForeignKey(
@@ -19,8 +27,9 @@ class HistorialContacto(models.Model):
         ResultadoContacto, on_delete=models.CASCADE, related_name="historial_contacto"
     )
     gestor = models.ForeignKey(
-        Paciente, on_delete=models.CASCADE, related_name="hc_gestor"
-    )
-    motivo = models.ForeignKey(
-        Motivo, on_delete=models.CASCADE, related_name="historial_contacto"
+        Gestor,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="historial_contacto",
     )
