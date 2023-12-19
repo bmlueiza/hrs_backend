@@ -34,3 +34,10 @@ class AsignacionActividadSerializer(serializers.ModelSerializer):
             representation["estado"]
         )
         return representation
+
+    def validate_estado(self, value):
+        # Validar que el valor de 'estado' está entre las opciones permitidas
+        estado_choices = dict(AsignacionActividad.ESTADO_CHOICES)
+        if value not in estado_choices:
+            raise serializers.ValidationError("Estado no válido.")
+        return value
