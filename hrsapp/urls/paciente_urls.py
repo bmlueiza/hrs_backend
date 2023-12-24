@@ -37,4 +37,9 @@ urlpatterns = [
         paciente_views.PacienteDiagnosticoAddView.as_view(),
         name="agregar_diagnosticos_paciente",
     ),
+    path(
+        "api/pacientes/gestor/<int:gestor_id>/",
+        paciente_views.PacienteByGestorListView.as_view(),
+        name="pacientes_por_gestor",
+    ),
 ]

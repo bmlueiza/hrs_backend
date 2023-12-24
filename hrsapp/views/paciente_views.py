@@ -86,3 +86,15 @@ class PacienteDiagnosticoAddView(APIView):
 
         except Paciente.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+# Pacientes por gestor
+class PacienteByGestorListView(generics.ListAPIView):
+    serializer_class = PacienteSerializer
+
+    def get_queryset(self):
+        try:
+            id_gestor = self.kwargs["gestor_id"]
+            return Paciente.objects.filter(gestor__id=id_gestor)
+        except KeyError:
+            return Paciente.objects.none()
