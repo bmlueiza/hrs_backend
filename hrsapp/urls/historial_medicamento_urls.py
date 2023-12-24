@@ -6,7 +6,7 @@ urlpatterns = [
     path(
         "api/historial_medicamentos/",
         historial_medicamento_views.HistorialMedicamentoCreateListView.as_view(),
-        name="lista_crear_historiales_medicamento",
+        name="lista_crear_historial_medicamentos",
     ),
     path(
         "api/historial_medicamentos/<int:pk>/",
@@ -16,7 +16,7 @@ urlpatterns = [
     path(
         "api/historial_medicamentos/paciente/<int:pk>/",
         historial_medicamento_views.HistorialMedicamentoPacienteListView.as_view(),
-        name="lista_historiales_medicamento_paciente",
+        name="lista_historial_medicamentos_paciente",
     ),
     path(
         "api/historial_medicamentos/paciente/<int:pk>/medicamentos/",

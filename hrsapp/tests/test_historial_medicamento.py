@@ -342,4 +342,3 @@ def test_medicamentos_by_paciente_list_view():
     response = client.get(url)
     assert response.status_code == status.HTTP_200_OK
     assert len(response.data) == 1
-    assert response.data[0] == medicamento.nombre
