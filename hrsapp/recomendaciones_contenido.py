@@ -1,17 +1,10 @@
 from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
-from hrsapp.models.recomendacion import Recomendacion
+from django.core.exceptions import ObjectDoesNotExist
 from hrsapp.models.paciente import Paciente
 from hrsapp.models.historial_contacto import HistorialContacto
 from hrsapp.models.historial_medicamento import HistorialMedicamento
 from hrsapp.models.asignacion_actividad import AsignacionActividad
-from hrsapp.models.diagnostico import Diagnostico
-from hrsapp.models.gestor import Gestor
 from hrsapp.models.accion_gestor import AccionGestor
-from hrsapp.models.actividad_medica import ActividadMedica
-from hrsapp.models.medicamento import Medicamento
 from hrsapp.models.resultado_contacto import ResultadoContacto
 
 # CONSTANTES GLOBALES
@@ -24,8 +17,8 @@ PUNTAJE_RECOMENDACIONES = [
     (1, "Alta relevancia"),
 ]
 # Resultados de contacto
-CONTACTO_EXITOSO = ResultadoContacto.objects.get(nombre="Exitoso")
-LLAMAR_MAS_TARDE = ResultadoContacto.objects.get(nombre="Llamar más tarde")
+CONTACTO_EXITOSO_NAME = "Exitoso"
+LLAMAR_MAS_TARDE_NAME = "Llamar más tarde"
 # Tipo de motivo de las contactos que realiza un gestor
 TIPO_MOTIVO_CHOICES = [
     (1, "Asignación"),
@@ -34,8 +27,10 @@ TIPO_MOTIVO_CHOICES = [
     (4, "Otro"),
 ]
 # Tipos de acciones de gestor
-CORROBORAR_ASISTENCIA = AccionGestor.objects.get(nombre="Corroborar asistencia")
-REPROGRAMAR_ACTIVIDAD = AccionGestor.objects.get(nombre="Reprogramar actividad")
+CORROBORAR_ASISTENCIA_NAME = "Corroborar asistencia"
+REPROGRAMAR_ACTIVIDAD_NAME = "Reprogramar actividad"
+VERIFICAR_ESTADO_NAME = "Verificar estado del paciente"
+RECORDAR_DESPACHO_NAME = "Recordar despacho"
 
 
 # FUNCIONES DE RECOMENDACIONES
@@ -52,19 +47,26 @@ def recomendacion_contenido_llamar_mas_tarde(gestor_id):
     # Obtener los pacientes del gestor
     pacientes = Paciente.objects.filter(gestor=gestor_id)
 
+    try:
+        contacto_exitoso = ResultadoContacto.objects.get(nombre=CONTACTO_EXITOSO_NAME)
+        llamar_mas_tarde = ResultadoContacto.objects.get(nombre=LLAMAR_MAS_TARDE_NAME)
+    except ObjectDoesNotExist:
+        # Si no se encuentra alguno de los resultados de contacto, retornar lista vacía
+        return recomendaciones_llamar_mas_tarde
+
     for paciente in pacientes:
         # Obtener el historial de contacto con el paciente
         historialContacto = HistorialContacto.objects.filter(paciente=paciente.id)
         # Generar recomendaciones respecto a si hay que volver a llamar al paciente
         for contacto in historialContacto:
             # Si existe un contacto con resultado "llamar más tarde" en los últimos 7 días
-            if contacto.resultado_contacto.id == LLAMAR_MAS_TARDE.id and (
+            if contacto.resultado_contacto.id == llamar_mas_tarde.id and (
                 0 <= (FECHA_ACTUAL - contacto.fecha).days <= 7
             ):
                 # Filtra si existe contacto en los últimos 7 días con el motivo del contacto y resultado exitoso
                 existe_contacto = HistorialContacto.objects.filter(
                     paciente=paciente.id,
-                    resultado_contacto=CONTACTO_EXITOSO.id,
+                    resultado_contacto=contacto_exitoso.id,
                     tipo_motivo=contacto.tipo_motivo,
                     motivo=contacto.motivo,
                     fecha__gte=FECHA_ACTUAL - timedelta(days=7),
@@ -81,7 +83,7 @@ def recomendacion_contenido_llamar_mas_tarde(gestor_id):
                         "tipo_motivo": contacto.tipo_motivo,
                         "motivo": contacto.motivo,
                         "puntaje": PUNTAJE_RECOMENDACIONES[0][0] * paciente.riesgo,
-                        "accion_gestor": LLAMAR_MAS_TARDE.nombre,
+                        "accion_gestor": llamar_mas_tarde.nombre,
                         "fecha_asignacion": "N/A",
                     }
                     recomendaciones_llamar_mas_tarde.append(recomendacion_data)
@@ -96,6 +98,17 @@ def recomendaciones_contenido_asignacion(gestor_id):
 
     # Obtener los pacientes del gestor
     pacientes = Paciente.objects.filter(gestor=gestor_id)
+    try:
+        contacto_exitoso = ResultadoContacto.objects.get(nombre=CONTACTO_EXITOSO_NAME)
+        corroborar_asistencia = AccionGestor.objects.get(
+            nombre=CORROBORAR_ASISTENCIA_NAME
+        )
+        reprogramar_actividad = AccionGestor.objects.get(
+            nombre=REPROGRAMAR_ACTIVIDAD_NAME
+        )
+    except ObjectDoesNotExist:
+        # Si no se encuentra alguno de los resultados de contacto, retornar lista vacía
+        return recomendaciones_asignacion
 
     for paciente in pacientes:
         # Obtener las asignaciones de actividades del paciente
@@ -114,10 +127,10 @@ def recomendaciones_contenido_asignacion(gestor_id):
                 # y la acción de gestor "Confirmar asistencia"
                 existe_contacto = HistorialContacto.objects.filter(
                     paciente=paciente.id,
-                    resultado_contacto=CONTACTO_EXITOSO.id,
+                    resultado_contacto=contacto_exitoso.id,
                     fecha__gte=FECHA_ACTUAL - timedelta(days=7),
                     motivo=asignacion.actividad_medica.nombre,
-                    accion_gestor=CORROBORAR_ASISTENCIA.id,
+                    accion_gestor=corroborar_asistencia.id,
                 ).exists()
                 # Si no existe contacto, se agrega la recomendacion a la lista
                 if not existe_contacto:
@@ -131,7 +144,7 @@ def recomendaciones_contenido_asignacion(gestor_id):
                         "tipo_motivo": TIPO_MOTIVO_CHOICES[0][1],
                         "motivo": asignacion.actividad_medica.nombre,
                         "puntaje": PUNTAJE_RECOMENDACIONES[0][0] * paciente.riesgo,
-                        "accion_gestor": CORROBORAR_ASISTENCIA.nombre,
+                        "accion_gestor": corroborar_asistencia.nombre,
                         "fecha_asignacion": asignacion.fecha_actividad.strftime(
                             "%d-%m-%Y"
                         ),
@@ -148,10 +161,10 @@ def recomendaciones_contenido_asignacion(gestor_id):
                 # y la acción de gestor "Reprogramar actividad"
                 existe_contacto = HistorialContacto.objects.filter(
                     paciente=paciente.id,
-                    resultado_contacto=CONTACTO_EXITOSO.id,
+                    resultado_contacto=contacto_exitoso.id,
                     fecha__gte=FECHA_ACTUAL - timedelta(days=7),
                     motivo=asignacion.actividad_medica.nombre,
-                    accion_gestor=REPROGRAMAR_ACTIVIDAD.id,
+                    accion_gestor=reprogramar_actividad.id,
                 ).exists()
                 # Si no existe contacto, se agrega la recomendacion a la lista
                 if not existe_contacto:
@@ -165,7 +178,7 @@ def recomendaciones_contenido_asignacion(gestor_id):
                         "tipo_motivo": TIPO_MOTIVO_CHOICES[0][1],
                         "motivo": asignacion.actividad_medica.nombre,
                         "puntaje": PUNTAJE_RECOMENDACIONES[1][0] * paciente.riesgo,
-                        "accion_gestor": REPROGRAMAR_ACTIVIDAD.nombre,
+                        "accion_gestor": reprogramar_actividad.nombre,
                         "fecha_asignacion": asignacion.fecha_actividad.strftime(
                             "%d-%m-%Y"
                         ),
@@ -180,7 +193,6 @@ def recomendaciones_contenido_asignacion(gestor_id):
     return recomendaciones_asignacion
 
 
-# Recomendaciones basadas en contenido de tipo_motivo "medicamento"
 def recomendaciones_contenido_medicamento(gestor_id):
     # Variables
     recomendacion_data = []
@@ -188,13 +200,15 @@ def recomendaciones_contenido_medicamento(gestor_id):
 
     # Obtener los pacientes del gestor
     pacientes = Paciente.objects.filter(gestor=gestor_id)
+    try:
+        contacto_exitoso = ResultadoContacto.objects.get(nombre=CONTACTO_EXITOSO_NAME)
+        recordar_despacho = AccionGestor.objects.get(nombre=RECORDAR_DESPACHO_NAME)
+        verificar_estado = AccionGestor.objects.get(nombre=VERIFICAR_ESTADO_NAME)
+    except ObjectDoesNotExist:
+        # Si no se encuentra alguno de los resultados de contacto, retornar lista vacía
+        return recomendaciones_medicamento
 
     for paciente in pacientes:
-        # Obtener el historial de recomendaciones sobre el paciente
-        recomendaciones_actuales = Recomendacion.objects.filter(paciente=paciente.id)
-        # Obtener el historial de contacto del paciente
-        historialContacto = HistorialContacto.objects.filter(paciente=paciente.id)
-
         # Obtener el historial de medicamentos del paciente
         historialMedicamentos = HistorialMedicamento.objects.filter(
             paciente=paciente.id
@@ -202,17 +216,17 @@ def recomendaciones_contenido_medicamento(gestor_id):
         # Generar recomendaciones respecto a los medicamentos asignados
         for medicamento in historialMedicamentos:
             # Recomendaciones para recordar despacho de medicamentos
-            accion_gestor = AccionGestor.objects.get(nombre="Recordar despacho")
+
             # Si el medicamento se debe despachar dentro de los próximos 7 días
             if 1 < (medicamento.proximo_despacho - FECHA_ACTUAL).days < 7:
                 # Filtra si existe contacto en los últimos 7 días con el motivo del medicamento
                 # y la acción de gestor "Recordar despacho de medicamentos"
                 existe_contacto = HistorialContacto.objects.filter(
                     paciente=paciente.id,
-                    resultado_contacto=CONTACTO_EXITOSO.id,
+                    resultado_contacto=contacto_exitoso.id,
                     fecha__gte=FECHA_ACTUAL - timedelta(days=7),
                     motivo=medicamento.medicamento.nombre,
-                    accion_gestor=accion_gestor.id,
+                    accion_gestor=recordar_despacho.id,
                 ).exists()
                 # Si no existe contacto, se agrega la recomendacion a la lista
                 if not existe_contacto:
@@ -226,14 +240,13 @@ def recomendaciones_contenido_medicamento(gestor_id):
                         "tipo_motivo": TIPO_MOTIVO_CHOICES[1][1],
                         "motivo": medicamento.medicamento.nombre,
                         "puntaje": PUNTAJE_RECOMENDACIONES[0][0] * paciente.riesgo,
-                        "accion_gestor": accion_gestor.nombre,
+                        "accion_gestor": recordar_despacho.nombre,
                         "fecha_asignacion": "N/A",
                     }
                     recomendaciones_medicamento.append(recomendacion_data)
+
             # Recomendaciones por medicamento no retirado
-            accion_gestor = AccionGestor.objects.get(
-                nombre="Verificar estado del paciente"
-            )
+
             # Si el medicamento fue despachado dentro de los últimos 7 días
             # y no ha sido retirado
             if (
@@ -244,10 +257,10 @@ def recomendaciones_contenido_medicamento(gestor_id):
                 # y la acción de gestor "Verificar estado del paciente"
                 existe_contacto = HistorialContacto.objects.filter(
                     paciente=paciente.id,
-                    resultado_contacto=CONTACTO_EXITOSO.id,
+                    resultado_contacto=contacto_exitoso.id,
                     fecha__gte=FECHA_ACTUAL - timedelta(days=7),
                     motivo=medicamento.medicamento.nombre,
-                    accion_gestor=accion_gestor.id,
+                    accion_gestor=verificar_estado.id,
                 ).exists()
                 # Si no existe contacto, se agrega la recomendacion a la lista
                 if not existe_contacto:
@@ -261,7 +274,7 @@ def recomendaciones_contenido_medicamento(gestor_id):
                         "tipo_motivo": TIPO_MOTIVO_CHOICES[1][1],
                         "motivo": medicamento.medicamento.nombre,
                         "puntaje": PUNTAJE_RECOMENDACIONES[1][0] * paciente.riesgo,
-                        "accion_gestor": accion_gestor.nombre,
+                        "accion_gestor": verificar_estado.nombre,
                         "fecha_asignacion": "N/A",
                     }
                     recomendaciones_medicamento.append(recomendacion_data)
@@ -290,99 +303,3 @@ def recomendaciones_contenido(gestor_id):
         recomendaciones_contenido, key=lambda x: x.get("puntaje", 0), reverse=True
     )
     return recomendaciones_contenido_ordenadas
-
-
-# RECOMENDACIONES COLABORATIVAS
-
-# Recomendaciones basadas en colaboración de tipo_motivo "diagnóstico"
-
-
-# Generar un vector con caracteristicas de un paciente
-def get_vector_paciente(paciente_id):
-    # Obtener el objeto paciente según su id
-    paciente = Paciente.objects.get(id=paciente_id)
-
-    # Calcular edad del paciente respecto a su fecha de nacimiento
-    edad = relativedelta(FECHA_ACTUAL, paciente.fecha_nacimiento).years
-
-    # Obtener todos los diagnosticos
-    diagnosticos = Diagnostico.objects.all()
-
-    # Obtener los códigos de los diagnosticos del paciente como una lista de codigos
-    diagnosticos_paciente = set(paciente.diagnosticos.values_list("codigo", flat=True))
-
-    # Vector de paciente
-    vector_paciente = [
-        paciente.sexo,
-        paciente.riesgo,
-        edad,
-    ]
-
-    # Agregar 1 si el paciente tiene el diagnostico, 0 si no lo tiene
-    for diagnostico in diagnosticos:
-        if diagnostico.codigo in diagnosticos_paciente:
-            vector_paciente.append(1)
-        else:
-            vector_paciente.append(0)
-
-    return vector_paciente
-
-
-# Recomendaciones de prevención basadas en diagnósticos de pacientes con perfiles similares
-def recomendaciones_colaborativas(paciente_id):
-    # Variables
-    similitudes = []
-    recomendaciones = []
-    recomendacion_data = []
-    paciente_objetivo = Paciente.objects.get(id=paciente_id)
-    # Obtener el vector con caracteristicas del paciente
-    vector_paciente = np.array(get_vector_paciente(paciente_id))
-    # Obtener el resto de pacientes
-    pacientes = Paciente.objects.exclude(id=paciente_id)
-    # Lista con similitudes de pacientes
-    similitudes = []
-    # Calcular la similitud entre el paciente y el resto de pacientes
-    for paciente in pacientes:
-        # Obtener el vector con caracteristicas del paciente
-        vector_paciente2 = np.array(get_vector_paciente(paciente.id))
-        # Calcular la similitud entre el paciente y el resto de pacientes
-        similitud = cosine_similarity([vector_paciente], [vector_paciente2])
-        # Agregar la similitud a la lista de similitudes
-        similitudes.append((similitud[0][0], paciente.id))
-
-    # Ordenar la lista de similitudes por el campo "similitud" en orden descendente
-    similitudes_ordenadas = sorted(similitudes, reverse=True)
-    # Obtener n pacientes más similares
-    n_pacientes_similares = 5
-    pacientes_similares = similitudes_ordenadas[:n_pacientes_similares]
-
-    # Obtener los diagnosticos del paciente
-    diagnosticos_paciente = Paciente.objects.get(id=paciente_id).diagnosticos.all()
-    # Obtener los diagnosticos de los pacientes similares
-    diagnosticos_pacientes_similares = set(
-        Paciente.objects.filter(
-            id__in=[paciente[1] for paciente in pacientes_similares]
-        ).values_list("diagnosticos__codigo", flat=True)
-    )
-    # Obtener los diagnosticos que no tiene el paciente
-    if diagnosticos_pacientes_similares and diagnosticos_paciente:
-        diagnosticos_recomendados = diagnosticos_pacientes_similares.difference(
-            set(diagnosticos_paciente.values_list("codigo", flat=True))
-        )
-    for diagnostico in diagnosticos_recomendados:
-        recomendacion_data = {
-            "fecha": FECHA_ACTUAL.strftime("%d-%m-%Y"),
-            "paciente": paciente_objetivo.nombres
-            + " "
-            + paciente_objetivo.apellido1
-            + " "
-            + paciente_objetivo.apellido2,
-            "tipo_motivo": TIPO_MOTIVO_CHOICES[2][1],
-            "motivo": Diagnostico.objects.get(codigo=diagnostico).codigo,
-            "puntaje": PUNTAJE_RECOMENDACIONES[1][0] * paciente_objetivo.riesgo,
-            "accion_gestor": "Acciones preventivas",
-            "fecha_asignacion": "N/A",
-        }
-        recomendaciones.append(recomendacion_data)
-
-    return recomendaciones

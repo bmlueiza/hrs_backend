@@ -1,8 +1,8 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from hrsapp.models.paciente import Paciente
-from hrsapp.recomendaciones_hrs import recomendaciones_contenido
-from hrsapp.recomendaciones_hrs import recomendaciones_colaborativas
+from hrsapp.recomendaciones_contenido import recomendaciones_contenido
+from hrsapp.recomendaciones_colaborativas import recomendaciones_colaborativas
 
 
 # Leer Recomendaciones de un gestor en específico
