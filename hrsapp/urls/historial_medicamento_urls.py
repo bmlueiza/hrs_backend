@@ -23,4 +23,9 @@ urlpatterns = [
         historial_medicamento_views.MedicamentosPacienteListView.as_view(),
         name="lista_medicamentos_paciente",
     ),
+    path(
+        "api/historial_medicamentos/estados/",
+        historial_medicamento_views.HistorialMedicamentoEstadoListView.as_view(),
+        name="lista_estado_historial_medicamento",
+    ),
 ]

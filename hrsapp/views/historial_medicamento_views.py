@@ -1,5 +1,6 @@
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from hrsapp.models.historial_medicamento import HistorialMedicamento
 from hrsapp.serializers.historial_medicamento_serializer import (
     HistorialMedicamentoSerializer,
@@ -41,3 +42,9 @@ class MedicamentosPacienteListView(generics.ListAPIView):
 
         # Devuelve la lista de nombres como parte de la respuesta JSON
         return Response({"nombres_medicamentos": list(nombres_medicamentos)})
+
+
+# Obtener opciones de estado
+class HistorialMedicamentoEstadoListView(APIView):
+    def get(self, request):
+        return Response(HistorialMedicamento.ESTADO_CHOICES)

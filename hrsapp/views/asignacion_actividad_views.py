@@ -1,5 +1,6 @@
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from hrsapp.models.asignacion_actividad import AsignacionActividad
 from hrsapp.serializers.asignacion_actividad_serializer import (
     AsignacionActividadSerializer,
@@ -46,3 +47,9 @@ class AsignacionActividadPacientePendienteListView(generics.ListAPIView):
         )
 
         return Response(actividades_queryset)
+
+
+# Obtener los estados de las AsignacionActividad
+class AsignacionActividadEstadoListView(APIView):
+    def get(self, request):
+        return Response(AsignacionActividad.ESTADO_CHOICES)
