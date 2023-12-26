@@ -40,8 +40,6 @@ urlpatterns = [
     path("hrsapp/", include("hrsapp.urls.medicamento_urls")),
     # Rutas de medicos
     path("hrsapp/", include("hrsapp.urls.medico_urls")),
-    # Rutas de motivos
-    path("hrsapp/", include("hrsapp.urls.motivo_urls")),
     # Rutas de observaciones
     path("hrsapp/", include("hrsapp.urls.observacion_urls")),
     # Rutas de pacientes
@@ -50,5 +48,7 @@ urlpatterns = [
     path("hrsapp/", include("hrsapp.urls.recomendacion_urls")),
     # Rutas de resultados de contactos
     path("hrsapp/", include("hrsapp.urls.resultado_contacto_urls")),
+    # Rutas de login
+    path("hrsapp/", include("hrsapp.urls.login_urls")),
     # Otras rutas principales
 ]

@@ -29,13 +29,19 @@ class PacienteSerializer(serializers.ModelSerializer):
         representation["riesgo"] = dict(Paciente.RIESGO_CHOICES).get(
             representation["riesgo"]
         )
+        # Reemplazar el ID del gestor con su nombre completo
+        gestor = instance.gestor
+        representation["gestor"] = f"{gestor.first_name} {gestor.last_name}"
         return representation
 
     def validate_rut(self, value):
         if not value:
             raise serializers.ValidationError("Debe ingresar un RUT.")
-        elif Paciente.objects.filter(rut=value).exists():
-            raise serializers.ValidationError("Ya existe un paciente con ese RUT.")
+
+        if self.context["request"].method == "POST":
+            if Paciente.objects.filter(rut=value).exists():
+                raise serializers.ValidationError("Ya existe un paciente con ese RUT.")
+
         return value
 
     def create(self, validated_data):

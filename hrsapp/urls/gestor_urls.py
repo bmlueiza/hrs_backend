@@ -12,4 +12,9 @@ urlpatterns = [
         gestor_views.GestorDetailUpdateDeleteView.as_view(),
         name="detalle_actualizar_eliminar_gestor",
     ),
+    path(
+        "api/gestores/username/<str:username>/",
+        gestor_views.GestorUsernameView.as_view(),
+        name="gestor_username",
+    ),
 ]

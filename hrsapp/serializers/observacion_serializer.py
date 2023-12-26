@@ -21,5 +21,5 @@ class ObservacionSerializer(serializers.ModelSerializer):
         )
         # Reemplaza el ID del gestor con su nombre y apellido
         gestor = instance.gestor
-        representation["gestor"] = f"{gestor.nombre} {gestor.apellido}"
+        representation["gestor"] = f"{gestor.first_name} {gestor.last_name}"
         return representation
