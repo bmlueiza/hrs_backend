@@ -95,6 +95,15 @@ class PacienteByGestorListView(generics.ListAPIView):
     def get_queryset(self):
         try:
             id_gestor = self.kwargs["gestor_id"]
-            return Paciente.objects.filter(gestor__id=id_gestor)
+            queryset = Paciente.objects.filter(gestor__id=id_gestor)
+
+            # Verificar si se proporcionó un parámetro de búsqueda
+            query_param = self.request.query_params.get("termino", None)
+            if query_param:
+                queryset = Paciente.buscar_pacientes(query_param).filter(
+                    gestor__id=id_gestor
+                )
+
+            return queryset
         except KeyError:
             return Paciente.objects.none()

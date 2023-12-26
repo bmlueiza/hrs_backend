@@ -16,6 +16,7 @@ class Medico(models.Model):
             models.Q(nombre__icontains=query)
             | models.Q(apellido__icontains=query)
             | models.Q(rut__icontains=query)
+            | models.Q(especialidad__icontains=query)
         )
 
     @classmethod
