@@ -1,16 +1,12 @@
 from rest_framework import generics
 from rest_framework.response import Response
-from hrsapp.models.recomendacion import Recomendacion
 from hrsapp.models.paciente import Paciente
-from hrsapp.serializers.recomendacion_serializer import RecomendacionSerializer
 from hrsapp.recomendaciones_hrs import recomendaciones_contenido
 from hrsapp.recomendaciones_hrs import recomendaciones_colaborativas
 
 
 # Leer Recomendaciones de un gestor en específico
 class RecomendacionGestorListView(generics.ListAPIView):
-    serializer_class = RecomendacionSerializer
-
     def get(self, request, gestor_id, *args, **kwargs):
         try:
             # Llama a tu función de recomendaciones_contenido con el gestor_id proporcionado
@@ -31,8 +27,6 @@ class RecomendacionGestorListView(generics.ListAPIView):
 
 # Leer Recomendaciones de un paciente en específico
 class RecomendacionPacienteListView(generics.ListAPIView):
-    serializer_class = RecomendacionSerializer
-
     def get(self, request, paciente_id, *args, **kwargs):
         try:
             # Llama a funcion recomendciones_colaborativas con el paciente_id proporcionado

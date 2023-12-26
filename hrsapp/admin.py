@@ -10,7 +10,6 @@ from hrsapp.models.actividad_medica import ActividadMedica
 from hrsapp.models.accion_gestor import AccionGestor
 from hrsapp.models.resultado_contacto import ResultadoContacto
 from hrsapp.models.historial_contacto import HistorialContacto
-from hrsapp.models.recomendacion import Recomendacion
 from hrsapp.models.observacion import Observacion
 from hrsapp.models.asignacion_actividad import AsignacionActividad
 from hrsapp.models.historial_medicamento import HistorialMedicamento
@@ -24,7 +23,6 @@ admin.site.register(ActividadMedica)
 admin.site.register(AccionGestor)
 admin.site.register(ResultadoContacto)
 admin.site.register(HistorialContacto)
-admin.site.register(Recomendacion)
 admin.site.register(Observacion)
 admin.site.register(AsignacionActividad)
 admin.site.register(HistorialMedicamento)
