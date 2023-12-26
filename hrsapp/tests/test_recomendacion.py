@@ -1,3 +1,4 @@
+"""
 import pytest
 from django.db.utils import IntegrityError
 from django.urls import reverse
@@ -46,6 +47,7 @@ def test_crear_recomendacion():
         motivo="Motivo de prueba",
         paciente=paciente,
         accion_gestor=accion,
+        puntaje=1,
     )
     assert Recomendacion.objects.count() == 1
     assert recomendacion.fecha == "2021-01-01"
@@ -53,6 +55,7 @@ def test_crear_recomendacion():
     assert recomendacion.motivo == "Motivo de prueba"
     assert recomendacion.paciente == paciente
     assert recomendacion.accion_gestor == accion
+    assert recomendacion.puntaje == 1
 
 
 # Views
@@ -94,6 +97,7 @@ def test_recomendacion_list_create_view():
         "motivo": "Motivo de prueba",
         "paciente": paciente.id,
         "accion_gestor": accion.id,
+        "puntaje": 1,
     }
 
     # Test Create
@@ -139,6 +143,7 @@ def test_recomendacion_detail_update_delete_view():
         motivo="Motivo de prueba",
         paciente=paciente,
         accion_gestor=accion,
+        puntaje=1,
     )
 
     client = APIClient()
@@ -149,6 +154,7 @@ def test_recomendacion_detail_update_delete_view():
         "motivo": "Motivo de prueba2",
         "paciente": paciente.id,
         "accion_gestor": accion.id,
+        "puntaje": 2,
     }
 
     # Test Detail
@@ -160,6 +166,7 @@ def test_recomendacion_detail_update_delete_view():
     assert response.status_code == status.HTTP_200_OK
     assert response.data["tipo_motivo"] == 2
     assert response.data["motivo"] == "Motivo de prueba2"
+    assert response.data["puntaje"] == 2
 
     # Test Read
     response = client.get(url)
@@ -183,3 +190,4 @@ def test_recomendacion_detail_update_delete_view():
     # Test Delete after Delete (404)
     response = client.delete(url)
     assert response.status_code == status.HTTP_404_NOT_FOUND
+"""

@@ -19,8 +19,8 @@ from hrsapp.models.diagnostico import Diagnostico
 def test_crear_historial_contacto():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",
@@ -73,8 +73,8 @@ def test_crear_historial_contacto():
 def test_historial_contacto_list_create_view():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",
@@ -126,8 +126,8 @@ def test_historial_contacto_list_create_view():
 def test_historial_contacto_detail_update_delete_view():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",

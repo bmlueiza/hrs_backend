@@ -17,8 +17,8 @@ from hrsapp.models.diagnostico import Diagnostico
 def test_crear_asignacion_actividad():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",
@@ -68,8 +68,8 @@ def test_crear_asignacion_actividad():
 def test_estado_choices():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",
@@ -118,8 +118,8 @@ def test_asignacion_actividad_list_create_view():
     url = reverse("lista_crear_asignacion_actividades")
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",
@@ -167,8 +167,8 @@ def test_asignacion_actividad_list_create_view():
 def test_asignacion_actividad_detail_update_delete_view():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",

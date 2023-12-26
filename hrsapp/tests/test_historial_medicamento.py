@@ -18,8 +18,8 @@ from hrsapp.models.medico import Medico
 def test_crear_historial_medicamento():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",
@@ -82,8 +82,8 @@ def test_crear_historial_medicamento():
 def test_historial_medicamento_list_create_view():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",
@@ -142,8 +142,8 @@ def test_historial_medicamento_list_create_view():
 def test_historial_medicamento_detail_update_delete_view():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",
@@ -238,8 +238,8 @@ def test_historial_medicamento_detail_update_delete_view():
 def test_historial_medicamento_by_paciente_list_view():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",
@@ -293,8 +293,8 @@ def test_historial_medicamento_by_paciente_list_view():
 def test_medicamentos_by_paciente_list_view():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",

@@ -14,8 +14,8 @@ from hrsapp.models.gestor import Gestor
 def test_crear_observacion():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",
@@ -54,8 +54,8 @@ def test_observacion_list_create_view():
     url = reverse("lista_crear_observaciones")
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",
@@ -95,8 +95,8 @@ def test_observacion_detail_update_delete_view():
     client = APIClient()
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",

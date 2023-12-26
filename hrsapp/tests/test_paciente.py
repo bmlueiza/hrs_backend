@@ -13,10 +13,11 @@ from hrsapp.models.diagnostico import Diagnostico
 def test_crear_paciente():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
+        username="gestorusername",
         password="hash123",
     )
     diagnostico = Diagnostico.objects.create(
@@ -55,10 +56,11 @@ def test_crear_paciente():
 def test_rut_unico_paciente():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
+        username="gestorusername",
         password="hash123",
     )
     Paciente.objects.create(
@@ -92,10 +94,11 @@ def test_rut_unico_paciente():
 def test_buscar_pacientes():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
+        username="gestorusername",
         password="hash123",
     )
     Paciente.objects.create(
@@ -137,10 +140,11 @@ def test_buscar_pacientes():
 def test_paciente_create_list_view():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
+        username="gestorusername",
         password="hash123",
     )
     diagnostico = Diagnostico.objects.create(
@@ -184,8 +188,8 @@ def test_paciente_create_list_view():
 def test_paciente_detail_update_delete_view():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
-        nombre="Gestor",
-        apellido="Apellido",
+        first_name="Gestor",
+        last_name="Apellido",
         telefono="123456789",
         email="gestor@example.com",
         password="hash123",
