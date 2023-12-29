@@ -61,6 +61,7 @@ def recomendaciones_colaborativas(paciente_id):
     similitudes = []
     recomendaciones = []
     recomendacion_data = []
+    diagnosticos_recomendados = []
     paciente_objetivo = Paciente.objects.get(id=paciente_id)
     # Obtener el vector con caracteristicas del paciente
     vector_paciente = np.array(get_vector_paciente(paciente_id))

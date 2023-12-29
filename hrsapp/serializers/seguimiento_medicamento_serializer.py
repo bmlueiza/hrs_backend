@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from hrsapp.models.historial_medicamento import HistorialMedicamento
+from hrsapp.models.seguimiento_medicamento import SeguimientoMedicamento
 
 
-class HistorialMedicamentoSerializer(serializers.ModelSerializer):
+class SeguimientoMedicamentoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = HistorialMedicamento
+        model = SeguimientoMedicamento
         fields = "__all__"
 
     def to_representation(self, instance):
@@ -16,7 +16,7 @@ class HistorialMedicamentoSerializer(serializers.ModelSerializer):
             "%d-%m-%Y"
         )
         # Convierte el valor numérico de estado a su representación legible
-        representacion["estado"] = dict(HistorialMedicamento.ESTADO_CHOICES).get(
+        representacion["estado"] = dict(SeguimientoMedicamento.ESTADO_CHOICES).get(
             representacion["estado"]
         )
         # Remplaza los IDs de los pacientes con sus nombres
@@ -27,14 +27,20 @@ class HistorialMedicamentoSerializer(serializers.ModelSerializer):
         # Remplaza los IDs de los medicamentos con sus nombres
         medicamento = instance.medicamento
         representacion["medicamento"] = medicamento.nombre
-        # Remplaza los IDs de los médicos con sus nombres
-        medico = instance.medico
-        representacion["medico"] = medico.nombre + " " + medico.apellido
         # Remplaza los IDs de los diagnósticos con sus nombres
         diagnostico = instance.diagnostico
-        representacion["diagnostico"] = diagnostico.codigo
+        representacion["diagnostico"] = (
+            diagnostico.codigo if diagnostico is not None else None
+        )
+        # Remplaza los IDs de los médicos con sus nombres
+        medico = instance.medico
+        representacion["medico"] = (
+            medico.nombre + " " + medico.apellido if medico is not None else None
+        )
         return representacion
 
     def create(self, validated_data):
-        historial_medicamento = HistorialMedicamento.objects.create(**validated_data)
-        return historial_medicamento
+        seguimiento_medicamento = SeguimientoMedicamento.objects.create(
+            **validated_data
+        )
+        return seguimiento_medicamento

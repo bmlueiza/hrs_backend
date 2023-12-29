@@ -5,7 +5,7 @@ from .medico import Medico
 from .diagnostico import Diagnostico
 
 
-class HistorialMedicamento(models.Model):
+class SeguimientoMedicamento(models.Model):
     ESTADO_CHOICES = [
         (1, "Al día"),
         (2, "No retirado"),
@@ -42,4 +42,10 @@ class HistorialMedicamento(models.Model):
     )
 
     def __str__(self):
-        return self.id_paciente.nombre + " - " + self.id_medicamento.nombre
+        return (
+            self.paciente.nombres
+            + " "
+            + self.paciente.apellido1
+            + " - "
+            + self.medicamento.nombre
+        )

@@ -12,4 +12,9 @@ urlpatterns = [
         medico_views.MedicoDetailUpdateDeleteView.as_view(),
         name="detalle_actualizar_eliminar_medico",
     ),
+    path(
+        "api/medicos/especialidad/<str:especialidad>/",
+        medico_views.MedicoEspecialidadListView.as_view(),
+        name="medicos_especialidad",
+    ),
 ]

@@ -5,7 +5,7 @@ from django.db import models
 class Gestor(AbstractUser):
     rut = models.CharField(max_length=12, unique=True)
     telefono = models.CharField(max_length=12, unique=True)
-    admin = models.BooleanField(default=False)
+    admin = models.BooleanField(default=True)
 
     def __str__(self):
         return self.first_name + " " + self.last_name

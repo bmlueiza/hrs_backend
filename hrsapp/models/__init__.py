@@ -1,4 +1,5 @@
 from .diagnostico import Diagnostico
+from .especialidad_medica import EspecialidadMedica
 from .gestor import Gestor
 from .paciente import Paciente
 from .medico import Medico
@@ -9,4 +10,4 @@ from .resultado_contacto import ResultadoContacto
 from .historial_contacto import HistorialContacto
 from .observacion import Observacion
 from .asignacion_actividad import AsignacionActividad
-from .historial_medicamento import HistorialMedicamento
+from .seguimiento_medicamento import SeguimientoMedicamento

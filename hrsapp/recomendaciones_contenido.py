@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from django.core.exceptions import ObjectDoesNotExist
 from hrsapp.models.paciente import Paciente
 from hrsapp.models.historial_contacto import HistorialContacto
-from hrsapp.models.historial_medicamento import HistorialMedicamento
+from hrsapp.models.seguimiento_medicamento import SeguimientoMedicamento
 from hrsapp.models.asignacion_actividad import AsignacionActividad
 from hrsapp.models.accion_gestor import AccionGestor
 from hrsapp.models.resultado_contacto import ResultadoContacto
@@ -50,6 +50,9 @@ def recomendacion_contenido_llamar_mas_tarde(gestor_id):
     try:
         contacto_exitoso = ResultadoContacto.objects.get(nombre=CONTACTO_EXITOSO_NAME)
         llamar_mas_tarde = ResultadoContacto.objects.get(nombre=LLAMAR_MAS_TARDE_NAME)
+        accion_llamar_mas_tarde = AccionGestor.objects.get(
+            nombre=LLAMAR_MAS_TARDE_NAME, estado=True
+        )
     except ObjectDoesNotExist:
         # Si no se encuentra alguno de los resultados de contacto, retornar lista vacía
         return recomendaciones_llamar_mas_tarde
@@ -83,7 +86,7 @@ def recomendacion_contenido_llamar_mas_tarde(gestor_id):
                         "tipo_motivo": contacto.tipo_motivo,
                         "motivo": contacto.motivo,
                         "puntaje": PUNTAJE_RECOMENDACIONES[0][0] * paciente.riesgo,
-                        "accion_gestor": llamar_mas_tarde.nombre,
+                        "accion_gestor": accion_llamar_mas_tarde.nombre,
                         "fecha_asignacion": "N/A",
                     }
                     recomendaciones_llamar_mas_tarde.append(recomendacion_data)
@@ -209,12 +212,12 @@ def recomendaciones_contenido_medicamento(gestor_id):
         return recomendaciones_medicamento
 
     for paciente in pacientes:
-        # Obtener el historial de medicamentos del paciente
-        historialMedicamentos = HistorialMedicamento.objects.filter(
+        # Obtener el seguimiento de medicamentos del paciente
+        seguimientoMedicamentos = SeguimientoMedicamento.objects.filter(
             paciente=paciente.id
         )
         # Generar recomendaciones respecto a los medicamentos asignados
-        for medicamento in historialMedicamentos:
+        for medicamento in seguimientoMedicamentos:
             # Recomendaciones para recordar despacho de medicamentos
 
             # Si el medicamento se debe despachar dentro de los próximos 7 días

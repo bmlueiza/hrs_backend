@@ -1,4 +1,5 @@
 from django.db import models
+from .especialidad_medica import EspecialidadMedica
 
 
 class Medico(models.Model):
@@ -6,6 +7,14 @@ class Medico(models.Model):
     nombre = models.CharField(max_length=25)
     apellido = models.CharField(max_length=25)
     especialidad = models.CharField(max_length=50)
+
+    # Foreign Keys
+    especialidad = models.ForeignKey(
+        EspecialidadMedica,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="medico",
+    )
 
     def __str__(self):
         return self.nombre + " " + self.apellido
@@ -16,9 +25,4 @@ class Medico(models.Model):
             models.Q(nombre__icontains=query)
             | models.Q(apellido__icontains=query)
             | models.Q(rut__icontains=query)
-            | models.Q(especialidad__icontains=query)
         )
-
-    @classmethod
-    def buscar_medicos_especialidad(cls, query):
-        return cls.objects.filter(models.Q(especialidad__icontains=query))

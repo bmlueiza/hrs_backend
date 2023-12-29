@@ -30,12 +30,14 @@ urlpatterns = [
     path("hrsapp/", include("hrsapp.urls.asignacion_actividad_urls")),
     # Rutas de diagnosticos
     path("hrsapp/", include("hrsapp.urls.diagnostico_urls")),
+    # Rutas de especialidades medicas
+    path("hrsapp/", include("hrsapp.urls.especialidad_medica_urls")),
     # Rutas de gestores
     path("hrsapp/", include("hrsapp.urls.gestor_urls")),
     # Rutas de historiales de contacto
     path("hrsapp/", include("hrsapp.urls.historial_contacto_urls")),
-    # Rutas de historiales de medicamentos
-    path("hrsapp/", include("hrsapp.urls.historial_medicamento_urls")),
+    # Rutas de seguimiento de medicamentos
+    path("hrsapp/", include("hrsapp.urls.seguimiento_medicamento_urls")),
     # Rutas de medicamentos
     path("hrsapp/", include("hrsapp.urls.medicamento_urls")),
     # Rutas de medicos
