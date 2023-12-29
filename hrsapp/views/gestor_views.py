@@ -48,7 +48,7 @@ class GestorDetailUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         gestor = self.get_object()
-        if gestor.usuario.is_superuser:
+        if gestor.is_superuser:
             return Response(
                 {"detail": "No se puede eliminar un gestor administrador"},
                 status=status.HTTP_400_BAD_REQUEST,

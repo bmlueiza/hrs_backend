@@ -25,7 +25,7 @@ class AsignacionActividad(models.Model):
     )
     medico = models.ForeignKey(
         Medico,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="asignaciones_medicas",
         blank=True,
         null=True,

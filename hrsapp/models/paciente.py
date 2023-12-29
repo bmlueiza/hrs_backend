@@ -8,7 +8,6 @@ class Paciente(models.Model):
         (0, "No especificado"),
         (1, "Masculino"),
         (2, "Femenino"),
-        (9, "No aplicable"),
     ]
     RIESGO_CHOICES = [
         (1, "Bajo"),

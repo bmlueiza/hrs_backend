@@ -10,4 +10,6 @@ class Medicamento(models.Model):
 
     @classmethod
     def buscar_medicamentos(cls, query):
-        return cls.objects.filter(models.Q(nombre__icontains=query))
+        return cls.objects.filter(
+            models.Q(nombre__icontains=query) | models.Q(descripcion__icontains=query)
+        )
