@@ -6,7 +6,6 @@ from .medico import Medico
 from .medicamento import Medicamento
 from .actividad_medica import ActividadMedica
 from .accion_gestor import AccionGestor
-from .resultado_contacto import ResultadoContacto
 from .historial_contacto import HistorialContacto
 from .observacion import Observacion
 from .asignacion_actividad import AsignacionActividad

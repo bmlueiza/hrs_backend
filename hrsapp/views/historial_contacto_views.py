@@ -1,4 +1,6 @@
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from hrsapp.models.historial_contacto import HistorialContacto
 from hrsapp.serializers.historial_contacto_serializer import (
     HistorialContactoSerializer,
@@ -27,3 +29,15 @@ class HistorialContactoPacienteListView(generics.ListAPIView):
     def get_queryset(self):
         paciente_id = self.kwargs["pk"]
         return HistorialContacto.objects.filter(paciente=paciente_id)
+
+
+# Obtener las opciones de tipo_motivo
+class HistorialContactoTipoMotivoListView(APIView):
+    def get(self, request):
+        return Response(HistorialContacto.TIPO_MOTIVO_CHOICES)
+
+
+# Obtener las opciones de resultado_contacto
+class HistorialContactoResultadoContactoListView(APIView):
+    def get(self, request):
+        return Response(HistorialContacto.RESULTADO_CONTACTO_CHOICES)

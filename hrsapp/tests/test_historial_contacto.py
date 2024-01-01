@@ -7,7 +7,6 @@ import datetime
 from hrsapp.models.historial_contacto import HistorialContacto
 from hrsapp.models.paciente import Paciente
 from hrsapp.models.accion_gestor import AccionGestor
-from hrsapp.models.resultado_contacto import ResultadoContacto
 from hrsapp.models.gestor import Gestor
 from hrsapp.models.diagnostico import Diagnostico
 
@@ -42,16 +41,13 @@ def test_crear_historial_contacto():
     )
     paciente.diagnosticos.add(diagnostico)
     accion = AccionGestor.objects.create(nombre="Nueva Accion", estado=True)
-    resultado = ResultadoContacto.objects.create(
-        nombre="Nuevo Resultado", descripcion="Descripción opcional"
-    )
     historial_contacto = HistorialContacto.objects.create(
         fecha="2021-01-01",
         hora="12:00",
         tipo_motivo=1,
         motivo="Motivo de prueba",
         accion_gestor=accion,
-        resultado_contacto=resultado,
+        resultado_contacto=1,
         paciente=paciente,
         gestor=gestor,
     )
@@ -61,7 +57,7 @@ def test_crear_historial_contacto():
     assert historial_contacto.tipo_motivo == 1
     assert historial_contacto.motivo == "Motivo de prueba"
     assert historial_contacto.accion_gestor == accion
-    assert historial_contacto.resultado_contacto == resultado
+    assert historial_contacto.resultado_contacto == 1
     assert historial_contacto.paciente == paciente
     assert historial_contacto.gestor == gestor
 
@@ -96,9 +92,6 @@ def test_historial_contacto_list_create_view():
     )
     paciente.diagnosticos.add(diagnostico)
     accion = AccionGestor.objects.create(nombre="Nueva Accion", estado=True)
-    resultado = ResultadoContacto.objects.create(
-        nombre="Nuevo Resultado", descripcion="Descripción opcional"
-    )
     client = APIClient()
     url = reverse("lista_crear_historial_contactos")
     data = {
@@ -107,7 +100,7 @@ def test_historial_contacto_list_create_view():
         "tipo_motivo": 1,
         "motivo": "Motivo de prueba",
         "accion_gestor": accion.id,
-        "resultado_contacto": resultado.id,
+        "resultado_contacto": 1,
         "paciente": paciente.id,
         "gestor": gestor.id,
     }
@@ -149,16 +142,13 @@ def test_historial_contacto_detail_update_delete_view():
     )
     paciente.diagnosticos.add(diagnostico)
     accion = AccionGestor.objects.create(nombre="Nueva Accion", estado=True)
-    resultado = ResultadoContacto.objects.create(
-        nombre="Nuevo Resultado", descripcion="Descripción opcional"
-    )
     historial_contacto = HistorialContacto.objects.create(
         fecha="2021-01-01",
         hora="12:00",
         tipo_motivo=1,
         motivo="Motivo de prueba",
         accion_gestor=accion,
-        resultado_contacto=resultado,
+        resultado_contacto=1,
         paciente=paciente,
         gestor=gestor,
     )
@@ -173,7 +163,7 @@ def test_historial_contacto_detail_update_delete_view():
         "tipo_motivo": 1,
         "motivo": "Motivo de prueba",
         "accion_gestor": accion.id,
-        "resultado_contacto": resultado.id,
+        "resultado_contacto": 1,
         "paciente": paciente.id,
         "gestor": gestor.id,
     }

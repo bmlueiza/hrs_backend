@@ -20,7 +20,8 @@ class HistorialContactoSerializer(serializers.ModelSerializer):
         # Remplaza los IDs de las acciones del gestor con sus nombres
         accion_gestor = instance.accion_gestor
         representacion["accion_gestor"] = accion_gestor.nombre
-        # Remplaza los IDs de los resultados de contacto con sus nombres
-        resultado_contacto = instance.resultado_contacto
-        representacion["resultado_contacto"] = resultado_contacto.nombre
+        # Convierte el valor numérico de resultado_contacto a su representación legible
+        representacion["resultado_contacto"] = dict(
+            HistorialContacto.RESULTADO_CONTACTO_CHOICES
+        ).get(representacion["resultado_contacto"])
         return representacion

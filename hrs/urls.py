@@ -48,8 +48,6 @@ urlpatterns = [
     path("hrsapp/", include("hrsapp.urls.paciente_urls")),
     # Rutas de recomendaciones
     path("hrsapp/", include("hrsapp.urls.recomendacion_urls")),
-    # Rutas de resultados de contactos
-    path("hrsapp/", include("hrsapp.urls.resultado_contacto_urls")),
     # Rutas de login
     path("hrsapp/", include("hrsapp.urls.login_urls")),
     # Otras rutas principales
