@@ -2,7 +2,7 @@ import numpy as np
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 from sklearn.metrics.pairwise import cosine_similarity
-from hrsapp.models import Paciente, Diagnostico
+from hrsapp.models import Paciente, Diagnostico, HistorialContacto
 
 # VARIABLES GLOBALES
 
@@ -14,12 +14,7 @@ PUNTAJE_RECOMENDACIONES = [
     (1, "Alta relevancia"),
 ]
 # Tipo de motivo de las contactos que realiza un gestor
-TIPO_MOTIVO_CHOICES = [
-    (1, "Asignación"),
-    (2, "Medicamento"),
-    (3, "Diagnóstico"),
-    (4, "Otro"),
-]
+TIPO_MOTIVO_CHOICES = HistorialContacto.TIPO_MOTIVO_CHOICES
 
 # FUNCIONES
 
@@ -81,7 +76,7 @@ def recomendaciones_colaborativas(paciente_id):
     # Ordenar la lista de similitudes por el campo "similitud" en orden descendente
     similitudes_ordenadas = sorted(similitudes, reverse=True)
     # Obtener n pacientes más similares
-    n_pacientes_similares = 5
+    n_pacientes_similares = 3
     pacientes_similares = similitudes_ordenadas[:n_pacientes_similares]
 
     # Obtener los diagnosticos del paciente
@@ -97,6 +92,26 @@ def recomendaciones_colaborativas(paciente_id):
         diagnosticos_recomendados = diagnosticos_pacientes_similares.difference(
             set(diagnosticos_paciente.values_list("codigo", flat=True))
         )
+
+    # Descartar los diagnosticos cuya descripcion incluya la palabra "hombres" si el paciente es mujer
+    if paciente_objetivo.sexo == "2":
+        diagnosticos_recomendados = [
+            diagnostico
+            for diagnostico in diagnosticos_recomendados
+            if "hombres" not in Diagnostico.objects.get(codigo=diagnostico).descripcion
+        ]
+    # Descartar los diagnosticos cuya descripcion incluya la palabra "mujeres" si el paciente es hombre
+    elif paciente_objetivo.sexo == "1":
+        diagnosticos_recomendados = [
+            diagnostico
+            for diagnostico in diagnosticos_recomendados
+            if "mujeres" not in Diagnostico.objects.get(codigo=diagnostico).descripcion
+        ]
+
+    # Limitar el número de recomendaciones a 3
+    diagnosticos_recomendados = list(diagnosticos_recomendados)[:3]
+
+    # Generar recomendaciones
     for diagnostico in diagnosticos_recomendados:
         recomendacion_data = {
             "fecha": FECHA_ACTUAL.strftime("%d-%m-%Y"),
