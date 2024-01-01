@@ -33,7 +33,7 @@ urlpatterns = [
         name="opciones_riesgo",
     ),
     path(
-        "api/pacientes/<int:pk>/agregar-diagnosticos/",
+        "api/pacientes/<int:pk>/agregar_diagnostico/",
         paciente_views.PacienteDiagnosticoAddView.as_view(),
         name="agregar_diagnosticos_paciente",
     ),

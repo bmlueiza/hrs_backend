@@ -68,16 +68,14 @@ class PacienteDiagnosticoAddView(APIView):
     def put(self, request, pk):
         try:
             paciente = Paciente.objects.get(pk=pk)
-            diagnosticos_ids = request.data.get("diagnosticos", None)
+            diagnostico_id = request.data.get("diagnostico", None)
 
-            if diagnosticos_ids:
+            if diagnostico_id:
                 # Filtrar solo los diagnósticos existentes en la base de datos
-                diagnosticos_existente = Diagnostico.objects.filter(
-                    id__in=diagnosticos_ids
-                )
+                diagnostico_existente = Diagnostico.objects.filter(id=diagnostico_id)
 
                 # Agregar nuevos diagnósticos al paciente sin eliminar los anteriores
-                paciente.diagnosticos.add(*diagnosticos_existente)
+                paciente.diagnosticos.add(*diagnostico_existente)
                 paciente.save()
 
                 return Response(status=status.HTTP_200_OK)

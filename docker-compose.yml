@@ -14,7 +14,7 @@ services:
       - 5432:5432
 
   hrs-api:
-    image: hrsapi:latest
+    image: bmlueiza/hrsapi:latest
     container_name: hrs-api
     restart: always
     ports:
@@ -25,7 +25,7 @@ services:
       - postgres-db
 
   hrs-web:
-    image: hrsweb:latest
+    image: bmlueiza/hrsweb:latest
     container_name: hrs-web
     restart: always
     ports:

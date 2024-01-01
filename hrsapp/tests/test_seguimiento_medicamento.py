@@ -4,18 +4,19 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 import datetime
-from hrsapp.models.historial_medicamento import HistorialMedicamento
+from hrsapp.models.seguimiento_medicamento import SeguimientoMedicamento
 from hrsapp.models.paciente import Paciente
 from hrsapp.models.gestor import Gestor
 from hrsapp.models.diagnostico import Diagnostico
 from hrsapp.models.medicamento import Medicamento
 from hrsapp.models.medico import Medico
+from hrsapp.models.especialidad_medica import EspecialidadMedica
 
 # Modelo
 
 
 @pytest.mark.django_db
-def test_crear_historial_medicamento():
+def test_crear_seguimiento_medicamento():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
         first_name="Gestor",
@@ -40,17 +41,18 @@ def test_crear_historial_medicamento():
         gestor=gestor,
     )
     paciente.diagnosticos.add(diagnostico)
+    especialidad = EspecialidadMedica.objects.create(nombre="Especialidad")
     medico = Medico.objects.create(
         rut="22.222.222-2",
         nombre="Medico",
         apellido="Apellido",
-        especialidad="Especialidad",
+        especialidad=especialidad,
     )
     medicamento = Medicamento.objects.create(
         nombre="Medicamento", descripcion="Descripción opcional"
     )
 
-    historial_medicamento = HistorialMedicamento.objects.create(
+    seguimiento_medicamento = SeguimientoMedicamento.objects.create(
         fecha_inicio="2020-01-01",
         fecha_termino="2020-01-01",
         cantd_otorgada="30 comprimidos",
@@ -62,24 +64,25 @@ def test_crear_historial_medicamento():
         medicamento=medicamento,
         medico=medico,
     )
-    assert HistorialMedicamento.objects.count() == 1
-    assert historial_medicamento.fecha_inicio == "2020-01-01"
-    assert historial_medicamento.fecha_termino == "2020-01-01"
-    assert historial_medicamento.cantd_otorgada == "30 comprimidos"
-    assert historial_medicamento.indicacion_uso == "1 comprimido cada 8 horas"
-    assert historial_medicamento.proximo_despacho == "2020-01-01"
-    assert historial_medicamento.estado == 1
-    assert historial_medicamento.paciente == paciente
-    assert historial_medicamento.diagnostico == diagnostico
-    assert historial_medicamento.medicamento == medicamento
-    assert historial_medicamento.medico == medico
+    assert SeguimientoMedicamento.objects.count() == 1
+    assert seguimiento_medicamento.fecha_inicio == "2020-01-01"
+    assert seguimiento_medicamento.fecha_termino == "2020-01-01"
+    assert seguimiento_medicamento.cantd_otorgada == "30 comprimidos"
+    assert seguimiento_medicamento.indicacion_uso == "1 comprimido cada 8 horas"
+    assert seguimiento_medicamento.proximo_despacho == "2020-01-01"
+    assert seguimiento_medicamento.estado == 1
+    assert seguimiento_medicamento.paciente == paciente
+    assert seguimiento_medicamento.diagnostico == diagnostico
+    assert seguimiento_medicamento.medicamento == medicamento
+    assert seguimiento_medicamento.medico == medico
+    assert seguimiento_medicamento.medico.especialidad == especialidad
 
 
 # Views
 
 
 @pytest.mark.django_db
-def test_historial_medicamento_list_create_view():
+def test_seguimiento_medicamento_list_create_view():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
         first_name="Gestor",
@@ -104,17 +107,18 @@ def test_historial_medicamento_list_create_view():
         gestor=gestor,
     )
     paciente.diagnosticos.add(diagnostico)
+    especialidad = EspecialidadMedica.objects.create(nombre="Especialidad")
     medico = Medico.objects.create(
         rut="22.222.222-2",
         nombre="Medico",
         apellido="Apellido",
-        especialidad="Especialidad",
+        especialidad=especialidad,
     )
     medicamento = Medicamento.objects.create(
         nombre="Medicamento", descripcion="Descripción opcional"
     )
     client = APIClient()
-    url = reverse("lista_crear_historial_medicamentos")
+    url = reverse("lista_crear_seguimiento_medicamentos")
     data = {
         "fecha_inicio": "2020-01-01",
         "fecha_termino": "2020-01-01",
@@ -139,7 +143,7 @@ def test_historial_medicamento_list_create_view():
 
 
 @pytest.mark.django_db
-def test_historial_medicamento_detail_update_delete_view():
+def test_seguimiento_medicamento_detail_update_delete_view():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
         first_name="Gestor",
@@ -164,16 +168,17 @@ def test_historial_medicamento_detail_update_delete_view():
         gestor=gestor,
     )
     paciente.diagnosticos.add(diagnostico)
+    especialidad = EspecialidadMedica.objects.create(nombre="Especialidad")
     medico = Medico.objects.create(
         rut="22.222.222-2",
         nombre="Medico",
         apellido="Apellido",
-        especialidad="Especialidad",
+        especialidad=especialidad,
     )
     medicamento = Medicamento.objects.create(
         nombre="Medicamento", descripcion="Descripción opcional"
     )
-    historial_medicamento = HistorialMedicamento.objects.create(
+    seguimiento_medicamento = SeguimientoMedicamento.objects.create(
         fecha_inicio="2020-01-01",
         fecha_termino="2020-01-01",
         cantd_otorgada="30 comprimidos",
@@ -188,8 +193,8 @@ def test_historial_medicamento_detail_update_delete_view():
 
     client = APIClient()
     url = reverse(
-        "detalle_actualizar_eliminar_historial_medicamento",
-        args=[historial_medicamento.id],
+        "detalle_actualizar_eliminar_seguimiento_medicamento",
+        args=[seguimiento_medicamento.id],
     )
     data = {
         "fecha_inicio": "2020-01-01",
@@ -213,7 +218,9 @@ def test_historial_medicamento_detail_update_delete_view():
     assert response.status_code == status.HTTP_200_OK
     updated_date = datetime.date.fromisoformat(data["proximo_despacho"])
     assert (
-        HistorialMedicamento.objects.get(id=historial_medicamento.id).proximo_despacho
+        SeguimientoMedicamento.objects.get(
+            id=seguimiento_medicamento.id
+        ).proximo_despacho
         == updated_date
     )
 
@@ -235,7 +242,7 @@ def test_historial_medicamento_detail_update_delete_view():
 
 
 @pytest.mark.django_db
-def test_historial_medicamento_by_paciente_list_view():
+def test_seguimiento_medicamento_by_paciente_list_view():
     gestor = Gestor.objects.create(
         rut="11.111.111-1",
         first_name="Gestor",
@@ -260,16 +267,17 @@ def test_historial_medicamento_by_paciente_list_view():
         gestor=gestor,
     )
     paciente.diagnosticos.add(diagnostico)
+    especialidad = EspecialidadMedica.objects.create(nombre="Especialidad")
     medico = Medico.objects.create(
         rut="22.222.222-2",
         nombre="Medico",
         apellido="Apellido",
-        especialidad="Especialidad",
+        especialidad=especialidad,
     )
     medicamento = Medicamento.objects.create(
         nombre="Medicamento", descripcion="Descripción opcional"
     )
-    historial_medicamento = HistorialMedicamento.objects.create(
+    seguimiento_medicamento = SeguimientoMedicamento.objects.create(
         fecha_inicio="2020-01-01",
         fecha_termino="2020-01-01",
         cantd_otorgada="30 comprimidos",
@@ -283,7 +291,7 @@ def test_historial_medicamento_by_paciente_list_view():
     )
 
     client = APIClient()
-    url = reverse("lista_historial_medicamentos_paciente", args=[paciente.id])
+    url = reverse("lista_seguimiento_medicamentos_paciente", args=[paciente.id])
     response = client.get(url)
     assert response.status_code == status.HTTP_200_OK
     assert len(response.data) == 1
@@ -315,16 +323,17 @@ def test_medicamentos_by_paciente_list_view():
         gestor=gestor,
     )
     paciente.diagnosticos.add(diagnostico)
+    especialidad = EspecialidadMedica.objects.create(nombre="Especialidad")
     medico = Medico.objects.create(
         rut="22.222.222-2",
         nombre="Medico",
         apellido="Apellido",
-        especialidad="Especialidad",
+        especialidad=especialidad,
     )
     medicamento = Medicamento.objects.create(
         nombre="Medicamento", descripcion="Descripción opcional"
     )
-    historial_medicamento = HistorialMedicamento.objects.create(
+    seguimiento_medicamento = SeguimientoMedicamento.objects.create(
         fecha_inicio="2020-01-01",
         fecha_termino="2020-01-01",
         cantd_otorgada="30 comprimidos",

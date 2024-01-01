@@ -1,13 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.views import APIView
-from rest_framework import serializers
-from django.contrib.auth import authenticate
 from hrsapp.models.gestor import Gestor
 from hrsapp.serializers.gestor_serializer import GestorSerializer
-from django.contrib.auth import get_user_model
 
 # CRUD Gestor
 
