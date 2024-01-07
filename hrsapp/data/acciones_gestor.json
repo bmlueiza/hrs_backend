@@ -1,0 +1,51 @@
+[
+  {
+    "model": "hrsapp.acciongestor",
+    "fields": {
+      "nombre": "Agendar",
+      "estado": true
+    }
+  },
+  {
+    "model": "hrsapp.acciongestor",
+    "fields": {
+      "nombre": "Corroborar asistencia",
+      "estado": true
+    }
+  },
+  {
+    "model": "hrsapp.acciongestor",
+    "fields": {
+      "nombre": "Reprogramar actividad",
+      "estado": true
+    }
+  },
+  {
+    "model": "hrsapp.acciongestor",
+    "fields": {
+      "nombre": "Verificar estado del paciente",
+      "estado": true
+    }
+  },
+  {
+    "model": "hrsapp.acciongestor",
+    "fields": {
+      "nombre": "Recordar despacho",
+      "estado": true
+    }
+  },
+  {
+    "model": "hrsapp.acciongestor",
+    "fields": {
+      "nombre": "Llamar más tarde",
+      "estado": true
+    }
+  },
+  {
+    "model": "hrsapp.acciongestor",
+    "fields": {
+      "nombre": "Alertar a supervisor",
+      "estado": true
+    }
+  }
+]

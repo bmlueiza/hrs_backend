@@ -4,49 +4,53 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 from hrsapp.models.medico import Medico
+from hrsapp.models.especialidad_medica import EspecialidadMedica
 
 # Modelo
 
 
 @pytest.mark.django_db
 def test_crear_medico():
+    especialidad = EspecialidadMedica.objects.create(nombre="Especialidad")
     medico = Medico.objects.create(
         rut="12.345.678-9",
         nombre="Nuevo Medico",
         apellido="Apellido",
-        especialidad="Especialidad",
+        especialidad=especialidad,
     )
     assert Medico.objects.count() == 1
     assert medico.rut == "12.345.678-9"
     assert medico.nombre == "Nuevo Medico"
     assert medico.apellido == "Apellido"
-    assert medico.especialidad == "Especialidad"
+    assert medico.especialidad == especialidad
 
 
 @pytest.mark.django_db
 def test_rut_unico_medico():
+    especialidad = EspecialidadMedica.objects.create(nombre="Especialidad")
     Medico.objects.create(
         rut="12.345.678-9",
         nombre="Duplicado",
         apellido="Apellido",
-        especialidad="Especialidad",
+        especialidad=especialidad,
     )
     with pytest.raises(IntegrityError):
         Medico.objects.create(
             rut="12.345.678-9",
             nombre="Duplicado",
             apellido="Apellido",
-            especialidad="Especialidad",
+            especialidad=especialidad,
         )
 
 
 @pytest.mark.django_db
 def test_buscar_medicos():
+    especialidad = EspecialidadMedica.objects.create(nombre="Especialidad")
     Medico.objects.create(
         rut="12.345.678-9",
         nombre="Buscar Medico",
         apellido="Apellido",
-        especialidad="Especialidad",
+        especialidad=especialidad,
     )
     result = Medico.buscar_medicos("Buscar")
     assert result.count() == 1
@@ -57,17 +61,8 @@ def test_buscar_medicos():
     result = Medico.buscar_medicos("Apellido")
     assert result.count() == 1
 
-
-@pytest.mark.django_db
-def test_buscar_medicos_especialidad():
-    Medico.objects.create(
-        rut="12.345.678-9",
-        nombre="Buscar Medico",
-        apellido="Apellido",
-        especialidad="Especialidad",
-    )
-    result = Medico.buscar_medicos_especialidad("Especialidad")
-    assert result.count() == 1
+    result = Medico.buscar_medicos("Apeyido")
+    assert result.count() == 0
 
 
 # Views
@@ -75,13 +70,14 @@ def test_buscar_medicos_especialidad():
 
 @pytest.mark.django_db
 def test_medico_list_create_view():
+    especialidad = EspecialidadMedica.objects.create(nombre="Especialidad")
     client = APIClient()
     url = reverse("lista_crear_medicos")
     data = {
         "rut": "12.345.678-9",
         "nombre": "Nuevo Medico",
         "apellido": "Apellido",
-        "especialidad": "Especialidad",
+        "especialidad": especialidad.id,
     }
 
     # Test Create
@@ -97,19 +93,20 @@ def test_medico_list_create_view():
 
 @pytest.mark.django_db
 def test_medico_detail_update_delete_view():
+    especialidad = EspecialidadMedica.objects.create(nombre="Especialidad")
     client = APIClient()
     medico = Medico.objects.create(
         rut="12.345.678-9",
         nombre="Nuevo Medico",
         apellido="Apellido",
-        especialidad="Especialidad",
+        especialidad=especialidad,
     )
     url = reverse("detalle_actualizar_eliminar_medico", kwargs={"pk": medico.pk})
     data = {
         "rut": "12.345.678-9",
         "nombre": "Nuevo Medico",
         "apellido": "Apellido",
-        "especialidad": "Especialidad",
+        "especialidad": especialidad.id,
     }
 
     # Test Retrieve

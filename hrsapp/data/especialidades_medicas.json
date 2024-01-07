@@ -1,0 +1,32 @@
+[
+  {
+    "model": "hrsapp.especialidadmedica",
+    "fields": {
+      "nombre": "Medicina General"
+    }
+  },
+  {
+    "model": "hrsapp.especialidadmedica",
+    "fields": {
+      "nombre": "Psiquiatria"
+    }
+  },
+  {
+    "model": "hrsapp.especialidadmedica",
+    "fields": {
+      "nombre": "Diabetologia"
+    }
+  },
+  {
+    "model": "hrsapp.especialidadmedica",
+    "fields": {
+      "nombre": "Traumatologia"
+    }
+  },
+  {
+    "model": "hrsapp.especialidadmedica",
+    "fields": {
+      "nombre": "Kinesiologia"
+    }
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "model": "hrsapp.medico",
+    "fields": {
+      "rut": "99.111.111-1",
+      "nombre": "Juan",
+      "apellido": "Perez",
+      "especialidad": 1
+    }
+  },
+  {
+    "model": "hrsapp.medico",
+    "fields": {
+      "rut": "22.222.222-2",
+      "nombre": "Pedro",
+      "apellido": "Perez",
+      "especialidad": 1
+    }
+  },
+  {
+    "model": "hrsapp.medico",
+    "fields": {
+      "rut": "33.333.333-3",
+      "nombre": "Maria",
+      "apellido": "Perez",
+      "especialidad": 2
+    }
+  },
+  {
+    "model": "hrsapp.medico",
+    "fields": {
+      "rut": "44.444.444-4",
+      "nombre": "Jose",
+      "apellido": "Perez",
+      "especialidad": 3
+    }
+  },
+  {
+    "model": "hrsapp.medico",
+    "fields": {
+      "rut": "55.555.555-5",
+      "nombre": "Juan",
+      "apellido": "Toledo",
+      "especialidad": 4
+    }
+  },
+  {
+    "model": "hrsapp.medico",
+    "fields": {
+      "rut": "66.666.666-6",
+      "nombre": "Pedro",
+      "apellido": "Yañez",
+      "especialidad": 5
+    }
+  }
+]

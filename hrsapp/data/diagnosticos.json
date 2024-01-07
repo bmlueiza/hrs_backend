@@ -1,0 +1,50 @@
+[
+  {
+    "model": "hrsapp.diagnostico",
+    "fields": {
+      "nombre": "Diabetes mellitus tipo 2 con otras complicaciones",
+      "codigo": "E11.6",
+      "descripcion": "Diabetes mellitus no insulinodependiente."
+    }
+  },
+  {
+    "model": "hrsapp.diagnostico",
+    "fields": {
+      "nombre": "Asma",
+      "codigo": "J45",
+      "descripcion": "Inflamación crónica de las vías aéreas."
+    }
+  },
+  {
+    "model": "hrsapp.diagnostico",
+    "fields": {
+      "nombre": "Hipertensión arterial",
+      "codigo": "I10",
+      "descripcion": "Presión arterial elevada."
+    }
+  },
+  {
+    "model": "hrsapp.diagnostico",
+    "fields": {
+      "nombre": "Depresión",
+      "codigo": "F32",
+      "descripcion": "Trastorno mental con síntomas como tristeza persistente, pérdida de interés, culpa, alteraciones del sueño, apetito, fatiga y dificultad para concentrarse."
+    }
+  },
+  {
+    "model": "hrsapp.diagnostico",
+    "fields": {
+      "nombre": "Enfermedad pulmonar obstructiva crónica",
+      "codigo": "J44",
+      "descripcion": "Obstrucción crónica al flujo aéreo."
+    }
+  },
+  {
+    "model": "hrsapp.diagnostico",
+    "fields": {
+      "nombre": "Cáncer de colon",
+      "codigo": "C18",
+      "descripcion": "Crecimiento anormal de células en el colon."
+    }
+  }
+]

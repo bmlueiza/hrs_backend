@@ -1,0 +1,37 @@
+[
+  {
+    "model": "hrsapp.actividadmedica",
+    "fields": {
+      "nombre": "Consulta",
+      "descripcion": "Consulta medica."
+    }
+  },
+  {
+    "model": "hrsapp.actividadmedica",
+    "fields": {
+      "nombre": "EMPAM",
+      "descripcion": "Examen de medicina preventiva del adulto mayor."
+    }
+  },
+  {
+    "model": "hrsapp.actividadmedica",
+    "fields": {
+      "nombre": "Terapia física",
+      "descripcion": "Tratar deficiencias o alteraciones del movimiento, que afectan las actividades y funciones de la vida diaria."
+    }
+  },
+  {
+    "model": "hrsapp.actividadmedica",
+    "fields": {
+      "nombre": "Terapia psicológica",
+      "descripcion": "Tratar problemas de salud mental, emocionales y conductuales."
+    }
+  },
+  {
+    "model": "hrsapp.actividadmedica",
+    "fields": {
+      "nombre": "Vacuna COVID-19",
+      "descripcion": "Vacuna para protección de COVID-19 y de presentar síntomas más graves si se contagian."
+    }
+  }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "model": "hrsapp.medicamento",
+    "fields": {
+      "nombre": "Paracetamol 500 mg",
+      "descripcion": "Medicamento para el dolor de cabeza"
+    }
+  },
+  {
+    "model": "hrsapp.medicamento",
+    "fields": {
+      "nombre": "Ibuprofeno 400 mg",
+      "descripcion": "Antiinflamatorio"
+    }
+  },
+  {
+    "model": "hrsapp.medicamento",
+    "fields": {
+      "nombre": "Aspirina 500 mg",
+      "descripcion": "Medicamento para el dolor de cabeza"
+    }
+  },
+  {
+    "model": "hrsapp.medicamento",
+    "fields": {
+      "nombre": "Metformina 850 mg",
+      "descripcion": "Disminuye la cantidad de glucosa que se absorbe de los alimentos y la cantidad de glucosa que forma el hígado."
+    }
+  },
+  {
+    "model": "hrsapp.medicamento",
+    "fields": {
+      "nombre": "Glibenclamida 5 mg",
+      "descripcion": "Estimula la secreción de insulina por el páncreas."
+    }
+  },
+  {
+    "model": "hrsapp.medicamento",
+    "fields": {
+      "nombre": "Budesonida 200 mcg/dosis",
+      "descripcion": "Aerosol para inhalación para controlar el asma bronquial y reducir la inflamación e irritación de las vías respiratorias."
+    }
+  },
+  {
+    "model": "hrsapp.medicamento",
+    "fields": {
+      "nombre": "Salbutamol 100 mcg/dosis",
+      "descripcion": "Broncodilatador para el tratamiento del asma bronquial."
+    }
+  }
+]

@@ -1,0 +1,98 @@
+[
+  {
+    "model": "hrsapp.paciente",
+    "fields": {
+      "nombres": "Juan Carlos",
+      "apellido1": "Perez",
+      "apellido2": "Gonzalez",
+      "rut": "1.111.111-1",
+      "fecha_nacimiento": "1940-01-01",
+      "sexo": 1,
+      "direccion": "Calle 1 # 1",
+      "telefono": "11111111",
+      "riesgo": 1,
+      "gestor": 2,
+      "diagnosticos": [1, 2, 3]
+    }
+  },
+  {
+    "model": "hrsapp.paciente",
+    "fields": {
+      "nombres": "Maria Jose",
+      "apellido1": "López",
+      "apellido2": "Gonzalez",
+      "rut": "1.111.111-2",
+      "fecha_nacimiento": "1943-01-01",
+      "sexo": 2,
+      "direccion": "Calle 1 # 1",
+      "telefono": "11111111",
+      "riesgo": 2,
+      "gestor": 1,
+      "diagnosticos": [4, 5]
+    }
+  },
+  {
+    "model": "hrsapp.paciente",
+    "fields": {
+      "nombres": "Pedro Pablo",
+      "apellido1": "Quiñones",
+      "apellido2": "Gonzalez",
+      "rut": "1.111.111-3",
+      "fecha_nacimiento": "1940-01-01",
+      "sexo": 1,
+      "direccion": "Calle 1 # 1",
+      "telefono": "11111111",
+      "riesgo": 1,
+      "gestor": 2,
+      "diagnosticos": [1]
+    }
+  },
+  {
+    "model": "hrsapp.paciente",
+    "fields": {
+      "nombres": "Juan Gabriel",
+      "apellido1": "Aguirre",
+      "apellido2": "Gonzalez",
+      "rut": "1.111.111-4",
+      "fecha_nacimiento": "1943-01-01",
+      "sexo": 1,
+      "direccion": "Calle 1 # 1",
+      "telefono": "11111111",
+      "riesgo": 3,
+      "gestor": 1,
+      "diagnosticos": [4, 5]
+    }
+  },
+  {
+    "model": "hrsapp.paciente",
+    "fields": {
+      "nombres": "Carlos",
+      "apellido1": "Perez",
+      "apellido2": "Gonzalez",
+      "rut": "1.111.111-5",
+      "fecha_nacimiento": "1990-01-01",
+      "sexo": 1,
+      "direccion": "Calle 1 # 1",
+      "telefono": "11111111",
+      "riesgo": 3,
+      "gestor": 2,
+      "diagnosticos": [5]
+    }
+  },
+  {
+    "model": "hrsapp.paciente",
+    "fields": {
+      "nombres": "Paola Andrea",
+      "apellido1": "Rojas",
+      "apellido2": "Tapia",
+      "rut": "1.111.111-6",
+      "fecha_nacimiento": "1939-01-01",
+      "sexo": 2,
+      "direccion": "Calle 1 # 1",
+      "telefono": "11111111",
+      "riesgo": 2,
+      "gestor": 2,
+      "diagnosticos": [3, 4]
+    }
+  }
+]
