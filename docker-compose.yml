@@ -14,18 +14,20 @@ services:
       - 5432:5432
 
   hrs-api:
-    image: bmlueiza/hrsapi:latest
+    image: bmlueiza/hrsapi:reallatest
     container_name: hrs-api
-    restart: always
     ports:
       - 8000:8000
     env_file:
       - .env
+    deploy:
+      restart_policy:
+        condition: on-failure
     depends_on:
       - postgres-db
 
   hrs-web:
-    image: bmlueiza/hrsweb:latest
+    image: bmlueiza/hrsweb:reallatest
     container_name: hrs-web
     restart: always
     ports:
